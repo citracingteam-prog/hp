@@ -215,6 +215,7 @@ export function Hero() {
           className="font-display text-6xl font-bold leading-[0.9] tracking-tight text-racing-white md:text-[8rem] lg:text-[10rem]"
         >
           {TEAM_MISSION.tagline}
+          <span className="sr-only"> — CIT-Racing Team 日本大学生産工学部 学生フォーミュラチーム</span>
         </motion.h1>
 
         <motion.p

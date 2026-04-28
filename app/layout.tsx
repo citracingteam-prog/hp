@@ -18,13 +18,16 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  title: "CIT-Racing Team",
+  title: {
+    default: "CIT-Racing Team | 日本大学生産工学部 学生フォーミュラ",
+    template: "%s | CIT-Racing Team",
+  },
   description:
-    "日本大学生産工学部 学生フォーミュラチーム。2026年大会に向けて、応援してくださる皆さまを探しています。",
+    "日本大学生産工学部の学生フォーミュラチームCIT-Racing Team。2002年結成。学生が設計・製作したフォーミュラカーで全日本大会に挑戦中。スポンサー・応援募集中。",
   openGraph: {
-    title: "CIT-Racing Team",
+    title: "CIT-Racing Team | 日本大学生産工学部 学生フォーミュラ",
     description:
-      "Push the limit. 日本大学生産工学部の学生フォーミュラチーム。応援してくださる皆さまを探しています。",
+      "日本大学生産工学部の学生フォーミュラチームCIT-Racing Team。2002年結成。学生が設計・製作したフォーミュラカーで全日本大会に挑戦中。スポンサー・応援募集中。",
     type: "website",
     locale: "ja_JP",
   },
