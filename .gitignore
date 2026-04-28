@@ -7,4 +7,5 @@ out
 *.log
 .vscode
 .idea
+.claude
 next-env.d.ts
