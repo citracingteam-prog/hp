@@ -1,25 +1,9 @@
 [
   {
     "id": "r1",
-    "name": "Shakedown Run",
-    "date": "2026-05-10T09:00:00+09:00",
-    "location": "日本大学 生産工学部 実験場",
-    "image": "/S__25518088_0.jpg",
-    "status": "upcoming"
-  },
-  {
-    "id": "r2",
-    "name": "Pre-season Test Day",
-    "date": "2026-06-14T08:00:00+09:00",
-    "location": "袖ヶ浦フォレストレースウェイ",
-    "image": "/S__25518089.jpg",
-    "status": "upcoming"
-  },
-  {
-    "id": "r3",
-    "name": "Formula Student Japan 2026",
-    "date": "2026-12-04T00:00:00.000Z",
-    "location": "静岡県 エコパ",
+    "name": "茂木試走会",
+    "date": "2026-06-20T00:00:00.000Z",
+    "location": "モビリティリゾート茂木",
     "image": "/S__25518086_0.jpg",
     "status": "upcoming"
   }
