@@ -9,3 +9,5 @@ out
 .idea
 .claude
 next-env.d.ts
+
+.vercel
