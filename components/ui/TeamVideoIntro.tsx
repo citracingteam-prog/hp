@@ -48,16 +48,13 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
     };
   }, [active]);
 
-  useEffect(() => {
-    if (phase !== "playing" || !videoRef.current) return;
-    const v = videoRef.current;
-    v.muted = muted;
-    v.play().catch(() => {
-      /* autoplay blocked — skip button still available */
-    });
-  }, [phase, muted]);
-
+  // play() must be called synchronously inside the click handler on iOS Safari
   const handleAudioChoice = useCallback((withAudio: boolean) => {
+    const v = videoRef.current;
+    if (v) {
+      v.muted = !withAudio;
+      v.play().catch(() => {});
+    }
     setMuted(!withAudio);
     setPhase("playing");
   }, []);
@@ -147,13 +144,13 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
                 >
                   <button
                     onClick={() => handleAudioChoice(true)}
-                    className="bg-racing-red px-12 py-4 font-display text-sm font-semibold tracking-[0.3em] text-racing-white transition-colors hover:bg-racing-crimson"
+                    className="bg-racing-red px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors active:bg-racing-crimson hover:bg-racing-crimson md:px-12 md:py-4 md:text-sm"
                   >
                     はい
                   </button>
                   <button
                     onClick={() => handleAudioChoice(false)}
-                    className="border border-racing-white/20 px-12 py-4 font-display text-sm font-semibold tracking-[0.3em] text-racing-white transition-colors hover:border-racing-white/50 hover:bg-racing-white/5"
+                    className="border border-racing-white/20 px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors active:bg-racing-white/10 hover:border-racing-white/50 hover:bg-racing-white/5 md:px-12 md:py-4 md:text-sm"
                   >
                     いいえ
                   </button>
@@ -164,7 +161,7 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
                   onClick={handleSkip}
-                  className="font-display text-[11px] tracking-[0.4em] text-racing-white/25 transition-colors hover:text-racing-white/55"
+                  className="pb-safe font-display text-xs tracking-[0.4em] text-racing-white/25 transition-colors hover:text-racing-white/55"
                 >
                   SKIP →
                 </motion.button>
@@ -192,7 +189,7 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2.5, duration: 0.6 }}
                 onClick={handleSkip}
-                className="absolute bottom-10 right-8 z-10 font-display text-xs tracking-[0.4em] text-racing-white/45 transition-colors hover:text-racing-white"
+                className="absolute bottom-[max(2.5rem,env(safe-area-inset-bottom,2.5rem))] right-8 z-10 px-3 py-3 font-display text-xs tracking-[0.4em] text-racing-white/45 transition-colors hover:text-racing-white active:text-racing-white"
               >
                 SKIP →
               </motion.button>
