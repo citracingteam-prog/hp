@@ -16,7 +16,7 @@
     "role": "テクニカルディレクター",
     "squad": "TECHNICAL DIRECTOR",
     "year": "生産工学部 2年",
-    "photo": "/君塚.png",
+    "photo": "/uploads/1777440316452-kimiduka.jpg",
     "photoOffsetY": -10
   },
   {
@@ -36,7 +36,7 @@
     "role": "フレーム班 リーダー",
     "squad": "FRAME",
     "year": "生産工学部 2年",
-    "photo": "/拓殖.png",
+    "photo": "/uploads/1777440330650-tsuge.jpg",
     "photoOffsetY": -10
   },
   {
@@ -55,7 +55,7 @@
     "role": "コックピット班 リーダー",
     "squad": "COCKPIT",
     "year": "生産工学部 2年",
-    "photo": "/石田.png"
+    "photo": "/uploads/1777440338757-ishida.jpg"
   },
   {
     "id": "m7",
@@ -64,6 +64,6 @@
     "role": "マネジメント班 リーダー",
     "squad": "MANAGEMENT",
     "year": "生産工学部 4年",
-    "photo": "/土生.png"
+    "photo": "/uploads/1777440344607-habu.jpg"
   }
 ]
