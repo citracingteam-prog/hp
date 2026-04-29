@@ -8,7 +8,6 @@ type Phase = "dialog" | "playing";
 export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
   const [active, setActive] = useState(false);
   const [phase, setPhase] = useState<Phase>("dialog");
-  const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
@@ -16,6 +15,7 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
   const fireComplete = useCallback(() => {
     if (completedRef.current) return;
     completedRef.current = true;
+    sessionStorage.setItem("cit_intro_shown", "1");
     onComplete?.();
   }, [onComplete]);
 
@@ -33,6 +33,11 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
       /* ignore */
     }
     if (reduced) {
+      fireComplete();
+      return;
+    }
+    // 同一セッション内で既に再生済みならスキップ
+    if (sessionStorage.getItem("cit_intro_shown")) {
       fireComplete();
       return;
     }
@@ -55,7 +60,6 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
       v.muted = !withAudio;
       v.play().catch(() => {});
     }
-    setMuted(!withAudio);
     setPhase("playing");
   }, []);
 
@@ -75,7 +79,7 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           className="fixed inset-0 z-[70] overflow-hidden bg-racing-black"
         >
-          {/* Video — object-cover via manual centering for iOS Safari compat */}
+          {/* Video */}
           <div className="absolute inset-0 overflow-hidden">
             <video
               ref={videoRef}
@@ -92,12 +96,12 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
             />
           </div>
 
-          {/* Gradient overlay during playback */}
+          {/* Gradient overlay */}
           {phase === "playing" && (
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-racing-black/50 via-transparent to-racing-black/70" />
           )}
 
-          {/* Dialog */}
+          {/* Audio dialog — 初回のみ表示 */}
           <AnimatePresence>
             {phase === "dialog" && (
               <motion.div
@@ -146,13 +150,13 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
                 >
                   <button
                     onClick={() => handleAudioChoice(true)}
-                    className="bg-racing-red px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors active:bg-racing-crimson hover:bg-racing-crimson md:px-12 md:py-4 md:text-sm"
+                    className="bg-racing-red px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors hover:bg-racing-crimson active:bg-racing-crimson md:px-12 md:py-4 md:text-sm"
                   >
                     はい
                   </button>
                   <button
                     onClick={() => handleAudioChoice(false)}
-                    className="border border-racing-white/20 px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors active:bg-racing-white/10 hover:border-racing-white/50 hover:bg-racing-white/5 md:px-12 md:py-4 md:text-sm"
+                    className="border border-racing-white/20 px-10 py-5 font-display text-base font-semibold tracking-[0.3em] text-racing-white transition-colors hover:border-racing-white/50 hover:bg-racing-white/5 active:bg-racing-white/10 md:px-12 md:py-4 md:text-sm"
                   >
                     いいえ
                   </button>
