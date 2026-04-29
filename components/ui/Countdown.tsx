@@ -61,7 +61,7 @@ function Unit({
 export function Countdown({ target }: { target: string | Date }) {
   const targetMs =
     typeof target === "string" ? new Date(target).getTime() : target.getTime();
-  const [parts, setParts] = useState<Parts>(() => diff(new Date(targetMs)));
+  const [parts, setParts] = useState<Parts | null>(null);
 
   useEffect(() => {
     const d = new Date(targetMs);
@@ -69,6 +69,20 @@ export function Countdown({ target }: { target: string | Date }) {
     const id = setInterval(() => setParts(diff(d)), 1000);
     return () => clearInterval(id);
   }, [targetMs]);
+
+  if (!parts) {
+    return (
+      <div className="flex items-center gap-1.5 md:gap-8">
+        <Unit value="---" label="DAYS" wide />
+        <span className="text-racing-red text-xl md:text-6xl font-display">:</span>
+        <Unit value="--" label="HRS" />
+        <span className="text-racing-red text-xl md:text-6xl font-display">:</span>
+        <Unit value="--" label="MIN" />
+        <span className="text-racing-red text-xl md:text-6xl font-display">:</span>
+        <Unit value="--" label="SEC" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-1.5 md:gap-8">
