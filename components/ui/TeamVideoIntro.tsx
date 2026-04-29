@@ -4,11 +4,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TEAM_VIDEO } from "@/lib/data";
 
-type Phase = "dialog" | "playing";
+type Phase = "dialog" | "playing" | "error";
 
 export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
   const [active, setActive] = useState(false);
   const [phase, setPhase] = useState<Phase>("dialog");
+  const [muted, setMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
 
   const fireComplete = useCallback(() => {
@@ -16,6 +19,12 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
     completedRef.current = true;
     onComplete?.();
   }, [onComplete]);
+
+  const handleSkip = useCallback(() => {
+    if (videoRef.current) videoRef.current.pause();
+    setActive(false);
+    fireComplete();
+  }, [fireComplete]);
 
   useEffect(() => {
     let reduced = false;
@@ -40,16 +49,27 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
     };
   }, [active]);
 
-  const handlePlay = useCallback(() => {
+  useEffect(() => {
+    if (phase !== "playing" || !videoRef.current) return;
+    const v = videoRef.current;
+    v.muted = muted;
+    v.play().catch(() => {
+      /* silently ignore — user can still skip */
+    });
+  }, [phase, muted]);
+
+  const handleAudioChoice = useCallback((withAudio: boolean) => {
+    setMuted(!withAudio);
     setPhase("playing");
   }, []);
 
-  const handleSkip = useCallback(() => {
-    setActive(false);
-    fireComplete();
-  }, [fireComplete]);
+  const handleTimeUpdate = useCallback(() => {
+    const v = videoRef.current;
+    if (!v || !v.duration) return;
+    setProgress(v.currentTime / v.duration);
+  }, []);
 
-  const embedSrc = `${TEAM_VIDEO.embedUrl}${TEAM_VIDEO.embedUrl.includes("?") ? "&" : "?"}autoplay=1`;
+  const videoSrc = `https://drive.google.com/uc?export=download&id=${TEAM_VIDEO.driveFileId}&confirm=t`;
 
   return (
     <AnimatePresence>
@@ -58,92 +78,160 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
           key="team-video-intro"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           className="fixed inset-0 z-[70] overflow-hidden bg-racing-black"
         >
-          {/* Dialog phase */}
+          {/* ── Video ── */}
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            playsInline
+            muted
+            preload="auto"
+            onEnded={handleSkip}
+            onError={() => setPhase("error")}
+            onTimeUpdate={handleTimeUpdate}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              phase === "playing" ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
+          {/* Gradient overlay during playback */}
+          {phase === "playing" && (
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-racing-black/50 via-transparent to-racing-black/70" />
+          )}
+
+          {/* ── Dialog ── */}
           <AnimatePresence>
-            {phase === "dialog" && (
+            {(phase === "dialog" || phase === "error") && (
               <motion.div
                 key="dialog"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="flex h-full flex-col items-center justify-center gap-8 px-6 text-center"
-              >
-                <div className="flex items-center gap-4">
-                  <span className="h-px w-12 bg-racing-red" />
-                  <span className="font-display text-[10px] tracking-[0.4em] text-racing-red">
-                    CIT RACING
-                  </span>
-                  <span className="h-px w-12 bg-racing-red" />
-                </div>
-
-                <div className="space-y-3">
-                  <p className="font-display text-xs tracking-[0.3em] text-racing-white/50">
-                    TEAM VIDEO 2025
-                  </p>
-                  <h2 className="font-display text-2xl font-bold tracking-wider text-racing-white md:text-3xl">
-                    音声を流しますか？
-                  </h2>
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    onClick={handlePlay}
-                    className="font-display text-sm font-semibold tracking-[0.25em] bg-racing-red px-10 py-4 text-racing-white transition-colors hover:bg-racing-crimson"
-                  >
-                    はい
-                  </button>
-                  <button
-                    onClick={handlePlay}
-                    className="font-display text-sm font-semibold tracking-[0.25em] border border-racing-white/30 px-10 py-4 text-racing-white transition-colors hover:bg-racing-white/10"
-                  >
-                    いいえ
-                  </button>
-                </div>
-
-                <button
-                  onClick={handleSkip}
-                  className="font-display text-[11px] tracking-[0.35em] text-racing-white/35 transition-colors hover:text-racing-white/60"
-                >
-                  SKIP →
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Video phase */}
-          <AnimatePresence>
-            {phase === "playing" && (
-              <motion.div
-                key="video"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0"
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="relative flex h-full flex-col items-center justify-center gap-10 px-6 text-center"
               >
-                <iframe
-                  src={embedSrc}
-                  className="h-full w-full border-0"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                  title="CIT-Racing Team Video 2025"
+                {/* Top accent bar */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 1, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="absolute inset-x-0 top-0 h-[2px] origin-left bg-racing-red"
                 />
 
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 2, duration: 0.5 }}
-                  onClick={handleSkip}
-                  className="absolute bottom-8 right-8 flex items-center gap-2 border border-racing-white/15 bg-racing-black/60 px-4 py-2 font-display text-xs tracking-[0.35em] text-racing-white/50 backdrop-blur-sm transition-colors hover:text-racing-white"
+                {/* Label + heading */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="space-y-5"
                 >
-                  SKIP →
-                </motion.button>
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="h-px w-10 bg-racing-red" />
+                    <span className="font-display text-[10px] tracking-[0.5em] text-racing-red">
+                      CIT RACING
+                    </span>
+                    <span className="h-px w-10 bg-racing-red" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="font-display text-[11px] tracking-[0.35em] text-racing-white/40">
+                      TEAM VIDEO 2025
+                    </p>
+                    <h2 className="font-display text-3xl font-bold tracking-wider text-racing-white md:text-4xl">
+                      {phase === "error"
+                        ? "動画を読み込めませんでした"
+                        : "音声を流しますか？"}
+                    </h2>
+                  </div>
+                </motion.div>
+
+                {/* Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="flex gap-4"
+                >
+                  {phase === "error" ? (
+                    <button
+                      onClick={handleSkip}
+                      className="bg-racing-red px-12 py-4 font-display text-sm font-semibold tracking-[0.3em] text-racing-white transition-colors hover:bg-racing-crimson"
+                    >
+                      サイトへ進む →
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleAudioChoice(true)}
+                        className="bg-racing-red px-12 py-4 font-display text-sm font-semibold tracking-[0.3em] text-racing-white transition-colors hover:bg-racing-crimson"
+                      >
+                        はい
+                      </button>
+                      <button
+                        onClick={() => handleAudioChoice(false)}
+                        className="border border-racing-white/20 px-12 py-4 font-display text-sm font-semibold tracking-[0.3em] text-racing-white transition-colors hover:border-racing-white/50 hover:bg-racing-white/5"
+                      >
+                        いいえ
+                      </button>
+                    </>
+                  )}
+                </motion.div>
+
+                {/* Skip */}
+                {phase !== "error" && (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    onClick={handleSkip}
+                    className="font-display text-[11px] tracking-[0.4em] text-racing-white/25 transition-colors hover:text-racing-white/55"
+                  >
+                    SKIP →
+                  </motion.button>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* ── Playback UI ── */}
+          {phase === "playing" && (
+            <>
+              {/* Top-left branding */}
+              <motion.div
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                className="absolute left-8 top-8 z-10 flex items-center gap-3"
+              >
+                <span className="h-5 w-[2px] bg-racing-red" />
+                <span className="font-display text-xs tracking-[0.35em] text-racing-white/70">
+                  CIT RACING — 2025
+                </span>
+              </motion.div>
+
+              {/* Skip button */}
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.5, duration: 0.6 }}
+                onClick={handleSkip}
+                className="absolute bottom-10 right-8 z-10 flex items-center gap-2 font-display text-xs tracking-[0.4em] text-racing-white/45 transition-colors hover:text-racing-white"
+              >
+                SKIP →
+              </motion.button>
+
+              {/* Progress bar */}
+              <div className="absolute inset-x-0 bottom-0 h-[2px] bg-racing-white/10">
+                <motion.div
+                  className="h-full bg-racing-red"
+                  style={{ scaleX: progress, transformOrigin: "left" }}
+                  transition={{ duration: 0 }}
+                />
+              </div>
+            </>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
