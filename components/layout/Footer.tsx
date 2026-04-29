@@ -60,7 +60,9 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href={`mailto:${CONTACT_INFO.email}`}
+                href={`https://mail.google.com/mail/?view=cm&to=${CONTACT_INFO.email}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Email"
                 className="text-racing-white/70 transition-colors hover:text-racing-red"
               >
