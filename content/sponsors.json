@@ -1,45 +1,24 @@
 [
-  {
-    "id": "powertrain",
-    "label": "01",
-    "title": "動力系",
-    "companies": ["HONDA", "GS YUASA"]
-  },
-  {
-    "id": "dev",
-    "label": "02",
-    "title": "開発・解析ツール",
-    "companies": ["SolidWorks", "Autodesk", "IPG Automotive"]
-  },
-  {
-    "id": "manufacturing",
-    "label": "03",
-    "title": "製造・素材",
-    "companies": ["神戸製鋼", "柘植製作所", "三五", "NOK"]
-  },
-  {
-    "id": "chassis",
-    "label": "04",
-    "title": "シャシ・制動",
-    "companies": ["NTN", "RS-R", "FCC", "日立Astemo", "グループ・エム"]
-  },
-  {
-    "id": "cooling",
-    "label": "05",
-    "title": "冷却系",
-    "companies": ["三栄", "三光ラジエター"]
-  },
-  {
-    "id": "others",
-    "label": "06",
-    "title": "機能部品・サービス",
-    "companies": [
-      "igus",
-      "Stäubli",
-      "KYOWA",
-      "ナック・ケー・エス",
-      "Mynavi Edge",
-      "トヨタレンタレース千葉"
-    ]
-  }
+  { "name": "HONDA", "url": "https://www.honda.co.jp/", "logo": "/sponsur/image.png" },
+  { "name": "GS YUASA", "url": "https://www.gs-yuasa.com/jp/", "logo": "/sponsur/image copy.png" },
+  { "name": "SolidWorks", "url": "https://www.solidworks.com/ja", "logo": "/sponsur/image copy 2.png" },
+  { "name": "Autodesk", "url": "https://www.autodesk.co.jp/", "logo": "/sponsur/image copy 3.png" },
+  { "name": "IPG Automotive", "url": "https://ipg-automotive.com/ja/", "logo": "/sponsur/image copy 4.png" },
+  { "name": "神戸製鋼", "url": "https://www.kobelco.co.jp/", "logo": "/sponsur/image copy 5.png" },
+  { "name": "柘植製作所", "url": "https://www.tsugess.jp/", "logo": "/sponsur/S__25518094.jpg" },
+  { "name": "三五", "url": "https://sango.jp/", "logo": "/sponsur/image copy 6.png" },
+  { "name": "NOK", "url": "https://www.nok.co.jp/", "logo": "/sponsur/image copy 7.png" },
+  { "name": "NTN", "url": "https://www.ntn.co.jp/", "logo": "/sponsur/image copy 8.png" },
+  { "name": "RS-R", "url": "https://www.rs-r.co.jp/", "logo": "/sponsur/image copy 9.png" },
+  { "name": "FCC", "url": "" },
+  { "name": "日立Astemo", "url": "https://www.hitachiastemo.com/ja/", "logo": "/sponsur/image copy 10.png" },
+  { "name": "グループ・エム", "url": "https://www.gruppem.co.jp/", "logo": "/sponsur/image copy 11.png" },
+  { "name": "三栄", "url": "https://san-ei-corp.co.jp/", "logo": "/sponsur/image copy 12.png" },
+  { "name": "三光ラジエター", "url": "https://sankomfg.co.jp/", "logo": "/sponsur/image copy 13.png" },
+  { "name": "igus", "url": "https://www.igus.co.jp/", "logo": "/sponsur/image copy 14.png" },
+  { "name": "Stäubli", "url": "" },
+  { "name": "KYOWA", "url": "https://www.kyowa-sangyou.com/", "logo": "/sponsur/image copy 15.png" },
+  { "name": "ナック・ケー・エス", "url": "" },
+  { "name": "Mynavi Edge", "url": "https://mynavi-edge.jp/", "logo": "/sponsur/image copy 16.png" },
+  { "name": "トヨタレンタレース千葉", "url": "https://rent.toyota.co.jp/", "logo": "/sponsur/image copy 17.png" }
 ]

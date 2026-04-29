@@ -53,11 +53,11 @@ export type HistoryEntry = {
   highlight?: boolean;
 };
 
-export type SponsorCategory = {
-  id: string;
-  label: string;
-  title: string;
-  companies: string[];
+export type Company = {
+  name: string;
+  url?: string;
+  logo?: string;
+  description?: string;
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -66,6 +66,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "MEMBERS", href: "#members" },
   { label: "CALENDAR", href: "#calendar" },
   { label: "SUPPORT", href: "#sponsorship" },
+  { label: "SPONSORS", href: "#sponsors" },
   { label: "CONTACT", href: "#contact" },
 ];
 
@@ -93,7 +94,7 @@ export const MEMBERS: Member[] = membersJson as Member[];
 export const STATS: Stat[] = [
   { label: "結成からの歩み", value: 24, suffix: "年", note: "2002年結成" },
   { label: "2025 全日本大会", value: 18, suffix: "位", note: "チーム史上最高" },
-  { label: "協賛企業", value: 20, suffix: "+社", note: "技術・物品・資金" },
+  { label: "協賛企業", value: sponsorsJson.length, suffix: "社", note: "技術・物品・資金" },
   { label: "OB・OG ネットワーク", value: 60, suffix: "+名", note: "産業界で活躍中" },
 ];
 
@@ -171,7 +172,7 @@ export const SUPPORT_WAYS: SupportWay[] = [
   },
 ];
 
-export const SPONSOR_CATEGORIES: SponsorCategory[] = sponsorsJson as SponsorCategory[];
+export const SPONSORS: Company[] = sponsorsJson as Company[];
 
 export const SPECIAL_THANKS: string[] = [
   "日本大学生産工学部 自動車工学リサーチ・センター",

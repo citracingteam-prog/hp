@@ -1,20 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { FadeIn } from "@/components/ui/AnimatedText";
 import { Marquee } from "@/components/ui/Marquee";
-import {
-  SPONSOR_LOGOS,
-  type SponsorMark,
-} from "@/components/ui/SponsorWordmark";
-import { SPECIAL_THANKS } from "@/lib/data";
+import { SPONSORS, SPECIAL_THANKS, type Company } from "@/lib/data";
 
 export function Sponsors() {
-  const half = Math.ceil(SPONSOR_LOGOS.length / 2);
-  const rowA = SPONSOR_LOGOS.slice(0, half);
-  const rowB = SPONSOR_LOGOS.slice(half);
+  const sponsorsWithLogo = SPONSORS.filter((c) => c.logo);
+  const half = Math.ceil(sponsorsWithLogo.length / 2);
+  const rowA = sponsorsWithLogo.slice(0, half);
+  const rowB = sponsorsWithLogo.slice(half);
 
   return (
-    <section className="relative bg-racing-black px-0 py-24 md:py-32">
+    <section id="sponsors" className="relative bg-racing-black px-0 py-24 md:py-32">
       <div className="px-5 md:px-10">
         <div className="mx-auto max-w-[1600px] text-center">
           <FadeIn>
@@ -28,7 +26,7 @@ export function Sponsors() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-              POWERED BY
+              SPONSORS
             </h2>
           </FadeIn>
           <FadeIn delay={0.2}>
@@ -37,18 +35,29 @@ export function Sponsors() {
               各領域の企業の皆さまに、資金・物品・技術でご支援いただいています。
             </p>
           </FadeIn>
+          <FadeIn delay={0.3}>
+            <div className="mt-6">
+              <Link
+                href="/sponsors"
+                className="inline-flex items-center gap-2 border border-racing-red px-6 py-2.5 font-display text-sm tracking-[0.3em] text-racing-red transition-all hover:bg-racing-red hover:text-racing-black"
+              >
+                <span aria-hidden>›</span>
+                MORE
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </div>
 
       <div className="mt-14 space-y-6 md:mt-20">
         <Marquee direction="left">
-          {rowA.map((m) => (
-            <SponsorBox key={m.id} mark={m} />
+          {rowA.map((c, idx) => (
+            <SponsorBox key={idx} company={c} />
           ))}
         </Marquee>
         <Marquee direction="right">
-          {rowB.map((m) => (
-            <SponsorBox key={m.id} mark={m} />
+          {rowB.map((c, idx) => (
+            <SponsorBox key={idx} company={c} />
           ))}
         </Marquee>
       </div>
@@ -105,22 +114,17 @@ export function Sponsors() {
   );
 }
 
-function SponsorBox({ mark }: { mark: SponsorMark }) {
-  const isLarge = mark.emphasis === "lg";
+function SponsorBox({ company }: { company: Company }) {
   const wrapperClass =
     "group relative flex h-24 w-64 shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-white transition-all hover:border-racing-red";
   const inner = (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={mark.src}
-        alt={mark.name}
+        src={company.logo!}
+        alt={company.name}
         loading="lazy"
-        className={
-          isLarge
-            ? "max-h-full max-w-full scale-[1.6] object-contain transition-transform duration-300 group-hover:scale-[1.7]"
-            : "max-h-[70%] max-w-[80%] object-contain transition-transform duration-300 group-hover:scale-105"
-        }
+        className="max-h-[70%] max-w-[80%] object-contain transition-transform duration-300 group-hover:scale-105"
       />
       <span
         aria-hidden
@@ -129,13 +133,13 @@ function SponsorBox({ mark }: { mark: SponsorMark }) {
     </>
   );
 
-  if (mark.href) {
+  if (company.url) {
     return (
       <a
-        href={mark.href}
+        href={company.url}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={mark.name}
+        aria-label={company.name}
         className={wrapperClass}
       >
         {inner}
@@ -143,7 +147,7 @@ function SponsorBox({ mark }: { mark: SponsorMark }) {
     );
   }
   return (
-    <div className={wrapperClass} aria-label={mark.name}>
+    <div className={wrapperClass} aria-label={company.name}>
       {inner}
     </div>
   );
