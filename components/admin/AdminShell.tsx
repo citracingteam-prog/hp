@@ -19,7 +19,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   async function onLogout() {
     await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
+    router.push("/");
     router.refresh();
   }
 
