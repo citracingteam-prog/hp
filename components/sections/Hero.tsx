@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HERO_MEDIA, TEAM_MISSION } from "@/lib/data";
-import { TeamVideoIntro } from "@/components/ui/TeamVideoIntro";
+import { EngineStart } from "@/components/ui/EngineStart";
 
 const CYCLE_MS = 3000;
 
@@ -71,7 +71,7 @@ export function Hero() {
       ref={ref}
       className="relative flex h-screen min-h-[720px] w-full items-end overflow-hidden"
     >
-      <TeamVideoIntro onComplete={handleIntroComplete} />
+      <EngineStart onComplete={handleIntroComplete} />
       {/* Background video */}
       <motion.div
         style={{ y: bgY, scale: bgScale }}
