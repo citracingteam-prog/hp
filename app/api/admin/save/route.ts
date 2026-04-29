@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { readSessionFromRequest } from "@/lib/admin/require-session";
 import { commitTextFile } from "@/lib/admin/github";
 
-const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors"] as const;
+const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery"] as const;
 type Section = (typeof ALLOWED_SECTIONS)[number];
 
 function isAllowedSection(v: unknown): v is Section {

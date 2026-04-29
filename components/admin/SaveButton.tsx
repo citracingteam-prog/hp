@@ -4,7 +4,7 @@ import { useState } from "react";
 import { notify } from "./Toast";
 
 type Props<T> = {
-  section: "hero-images" | "members" | "history" | "races" | "sponsors";
+  section: "hero-images" | "members" | "history" | "races" | "sponsors" | "gallery";
   data: T;
   disabled?: boolean;
   onSaved?: () => void;

@@ -7,6 +7,7 @@ import { ToastHost } from "./Toast";
 
 const NAV = [
   { label: "HERO 画像", href: "/admin/hero-images" },
+  { label: "GALLERY", href: "/admin/gallery" },
   { label: "MEMBERS", href: "/admin/members" },
   { label: "HISTORY", href: "/admin/history" },
   { label: "NEXT RACE", href: "/admin/races" },
