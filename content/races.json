@@ -4,7 +4,15 @@
     "name": "茂木試走会",
     "date": "2026-06-20T00:00:00.000Z",
     "location": "モビリティリゾート茂木",
-    "image": "/S__25518086_0.jpg",
+    "image": "/uploads/1777442601750-motegi.jpg",
+    "status": "upcoming"
+  },
+  {
+    "id": "r1777442190780",
+    "name": "大会",
+    "date": "2026-08-02T08:00:00.000Z",
+    "location": "愛知 sky expo",
+    "image": "/uploads/1777442689571-taikai.jpg",
     "status": "upcoming"
   }
 ]
