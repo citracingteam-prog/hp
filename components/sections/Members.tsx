@@ -39,6 +39,7 @@ export function Members() {
           {MEMBERS.map((m, i) => (
             <motion.article
               key={m.id}
+              tabIndex={0}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -47,7 +48,7 @@ export function Members() {
                 delay: (i % 3) * 0.08,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              className="group relative flex flex-col bg-racing-black transition-colors hover:bg-racing-carbon"
+              className="group relative flex flex-col bg-racing-black transition-colors hover:bg-racing-carbon focus:bg-racing-carbon focus:outline-none"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-racing-carbon">
                 {m.photo ? (
@@ -58,7 +59,7 @@ export function Members() {
                     loading="lazy"
                     className={`h-full w-full ${
                       m.photoOffsetY ? "-translate-y-[15px]" : "-translate-y-[5px]"
-                    } object-cover object-top grayscale brightness-90 transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100`}
+                    } object-cover object-top grayscale brightness-90 transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100 group-focus:scale-105 group-focus:grayscale-0 group-focus:brightness-100`}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center font-display text-[10px] tracking-[0.3em] text-racing-white/30">
@@ -91,7 +92,7 @@ export function Members() {
                 </p>
               </div>
 
-              <div className="absolute left-0 top-0 z-10 h-0 w-[2px] bg-racing-red transition-all duration-500 group-hover:h-full" />
+              <div className="absolute left-0 top-0 z-10 h-0 w-[2px] bg-racing-red transition-all duration-500 group-hover:h-full group-focus:h-full" />
             </motion.article>
           ))}
 
