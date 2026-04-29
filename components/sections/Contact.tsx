@@ -14,7 +14,7 @@ const SUPPORT_TYPES = [
 
 const SUBJECT = "【CIT-Racing Team】ご支援のご相談";
 
-function buildMailto(data: Record<string, FormDataEntryValue>): string {
+function buildGmailUrl(data: Record<string, FormDataEntryValue>): string {
   const supportLabel =
     SUPPORT_TYPES.find((t) => t.value === data.supportType)?.label ?? "未選択";
 
@@ -36,19 +36,26 @@ function buildMailto(data: Record<string, FormDataEntryValue>): string {
     "どうぞよろしくお願いいたします。",
   ].join("\n");
 
-  const params = new URLSearchParams({ subject: SUBJECT, body });
-  return `mailto:${CONTACT_INFO.email}?${params.toString()}`;
+  const params = new URLSearchParams({
+    view: "cm",
+    to: CONTACT_INFO.email,
+    su: SUBJECT,
+    body,
+  });
+  return `https://mail.google.com/mail/?${params.toString()}`;
 }
 
 export function Contact() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-    window.location.href = buildMailto(data);
+    window.open(buildGmailUrl(data), "_blank");
   };
 
-  const quickMailto = `mailto:${CONTACT_INFO.email}?${new URLSearchParams({
-    subject: SUBJECT,
+  const quickGmailUrl = `https://mail.google.com/mail/?${new URLSearchParams({
+    view: "cm",
+    to: CONTACT_INFO.email,
+    su: SUBJECT,
   }).toString()}`;
 
   return (
@@ -89,7 +96,7 @@ export function Contact() {
                 </dt>
                 <dd className="mt-1">
                   <a
-                    href={quickMailto}
+                    href={quickGmailUrl}
                     className="underline-offset-4 transition-colors hover:text-racing-red hover:underline"
                   >
                     {CONTACT_INFO.email}
@@ -197,7 +204,7 @@ export function Contact() {
               <p className="text-xs text-racing-gray">
                 お使いの環境でメールソフトが開かない場合は、
                 <a
-                  href={quickMailto}
+                  href={quickGmailUrl}
                   className="text-racing-white underline-offset-2 hover:text-racing-red hover:underline"
                 >
                   {CONTACT_INFO.email}
