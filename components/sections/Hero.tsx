@@ -163,7 +163,7 @@ export function Hero() {
           </div>
 
           {/* Data badges overlay */}
-          <div className="absolute right-6 top-6 z-20 flex flex-col items-end gap-3 md:right-8 md:top-8">
+          <div className="absolute right-6 top-6 z-20 hidden flex-col items-end gap-3 md:flex md:right-8 md:top-8">
             <div className="flex items-center gap-2 border border-racing-red/60 bg-racing-black/70 px-3 py-1.5 backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-racing-red" />
               <span className="font-display text-[10px] tracking-[0.25em] text-racing-white">
@@ -177,7 +177,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="absolute bottom-6 left-6 z-20 md:bottom-8 md:left-8">
+          <div className="absolute bottom-6 left-6 z-20 hidden md:block md:bottom-8 md:left-8">
             <div className="font-display text-xs tracking-[0.3em] text-racing-red">
               2025 RESULT
             </div>
