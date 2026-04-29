@@ -54,17 +54,19 @@ export default function SponsorsPage() {
                     }`}
                   >
                     {/* Logo area */}
-                    <div className="flex h-36 items-center justify-center bg-white p-6">
+                    <div className="relative h-36 bg-white">
                       {company.logo ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={company.logo}
-                          alt={company.name}
-                          className="max-h-full max-w-[200px] object-contain"
-                          loading="lazy"
-                        />
+                        <div className="absolute inset-0 p-4">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={company.logo}
+                            alt={company.name}
+                            className="h-full w-full object-contain"
+                            loading="lazy"
+                          />
+                        </div>
                       ) : (
-                        <span className="font-display text-lg font-bold text-racing-black">
+                        <span className="absolute inset-0 flex items-center justify-center font-display text-lg font-bold text-racing-black">
                           {company.name}
                         </span>
                       )}
