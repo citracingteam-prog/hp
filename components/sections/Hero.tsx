@@ -127,7 +127,7 @@ export function Hero() {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover object-top"
               />
             </AnimatePresence>
 
