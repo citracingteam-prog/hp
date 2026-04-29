@@ -8,22 +8,11 @@ export const metadata: Metadata = {
   description: "CIT-Racing Team のハイライト写真",
 };
 
-type GalleryItem = { src: string; caption: string; category: string };
+type GalleryImage = { src: string; caption: string };
+type GalleryAlbum = { id: string; name: string; images: GalleryImage[] };
 
 export default function GalleryPage() {
-  const items = galleryJson as GalleryItem[];
-
-  // カテゴリーごとにグループ化（順序を保持）
-  const groups: { category: string; items: GalleryItem[] }[] = [];
-  for (const item of items) {
-    const cat = item.category?.trim() || "その他";
-    const existing = groups.find((g) => g.category === cat);
-    if (existing) {
-      existing.items.push(item);
-    } else {
-      groups.push({ category: cat, items: [item] });
-    }
-  }
+  const albums = galleryJson as GalleryAlbum[];
 
   return (
     <>
@@ -43,40 +32,40 @@ export default function GalleryPage() {
             </h1>
           </div>
 
-          {items.length === 0 ? (
+          {albums.length === 0 ? (
             <div className="flex h-64 items-center justify-center border border-dashed border-white/10 text-racing-white/40">
               写真は準備中です
             </div>
           ) : (
             <div className="space-y-20">
-              {groups.map((group) => (
-                <section key={group.category}>
-                  {/* Category heading */}
+              {albums.map((album) => (
+                <section key={album.id}>
+                  {/* Album heading */}
                   <div className="mb-6 flex items-center gap-4">
                     <span className="h-[2px] w-8 bg-racing-red" />
                     <h2 className="font-display text-sm tracking-[0.4em] text-racing-white">
-                      {group.category}
+                      {album.name || "無題"}
                     </h2>
                     <span className="font-display text-[11px] text-racing-white/30">
-                      {group.items.length} PHOTOS
+                      {album.images.length} PHOTOS
                     </span>
                     <span className="flex-1 border-t border-white/10" />
                   </div>
 
                   {/* Masonry grid */}
                   <div className="columns-2 gap-3 md:columns-3 lg:columns-4">
-                    {group.items.map((item, i) => (
+                    {album.images.map((img, i) => (
                       <div key={i} className="mb-3 break-inside-avoid">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={item.src}
-                          alt={item.caption || ""}
+                          src={img.src}
+                          alt={img.caption || ""}
                           className="w-full object-cover"
                           loading="lazy"
                         />
-                        {item.caption && (
+                        {img.caption && (
                           <p className="mt-1.5 text-[11px] text-racing-white/50">
-                            {item.caption}
+                            {img.caption}
                           </p>
                         )}
                       </div>

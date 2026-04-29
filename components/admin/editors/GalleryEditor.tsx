@@ -4,39 +4,79 @@ import { useState } from "react";
 import { SectionHeader } from "@/components/admin/SectionHeader";
 import { SaveButton } from "@/components/admin/SaveButton";
 import { ImageUploader } from "@/components/admin/ImageUploader";
-import { SortableList } from "@/components/admin/SortableList";
 
-export type GalleryItem = { src: string; caption: string; category: string };
+export type GalleryImage = { src: string; caption: string };
+export type GalleryAlbum = { id: string; name: string; images: GalleryImage[] };
 
-type Props = { initial: GalleryItem[] };
+type Props = { initial: GalleryAlbum[] };
 
-const CATEGORY_SUGGESTIONS = [
-  "大会", "走行テスト", "製作", "活動", "イベント", "その他",
-];
+function newAlbum(): GalleryAlbum {
+  return { id: `album_${Date.now()}`, name: "", images: [] };
+}
 
 export function GalleryEditor({ initial }: Props) {
-  const [items, setItems] = useState<GalleryItem[]>(initial);
+  const [albums, setAlbums] = useState<GalleryAlbum[]>(initial);
 
-  function updateField<K extends keyof GalleryItem>(
-    index: number,
-    key: K,
-    value: GalleryItem[K],
-  ) {
-    setItems((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)),
+  function updateAlbum(id: string, patch: Partial<GalleryAlbum>) {
+    setAlbums((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, ...patch } : a)),
     );
   }
 
-  function handleUploaded(path: string) {
-    setItems((prev) => [...prev, { src: path, caption: "", category: "" }]);
+  function deleteAlbum(id: string) {
+    setAlbums((prev) => prev.filter((a) => a.id !== id));
   }
 
-  // カテゴリーごとの件数を表示
-  const categoryCounts = items.reduce<Record<string, number>>((acc, item) => {
-    const key = item.category || "未分類";
-    acc[key] = (acc[key] ?? 0) + 1;
-    return acc;
-  }, {});
+  function moveAlbum(id: string, dir: -1 | 1) {
+    setAlbums((prev) => {
+      const idx = prev.findIndex((a) => a.id === id);
+      if (idx < 0) return prev;
+      const next = idx + dir;
+      if (next < 0 || next >= prev.length) return prev;
+      const arr = [...prev];
+      [arr[idx], arr[next]] = [arr[next], arr[idx]];
+      return arr;
+    });
+  }
+
+  function addImage(albumId: string, src: string) {
+    setAlbums((prev) =>
+      prev.map((a) =>
+        a.id === albumId
+          ? { ...a, images: [...a.images, { src, caption: "" }] }
+          : a,
+      ),
+    );
+  }
+
+  function updateImage(
+    albumId: string,
+    imgIdx: number,
+    patch: Partial<GalleryImage>,
+  ) {
+    setAlbums((prev) =>
+      prev.map((a) =>
+        a.id === albumId
+          ? {
+              ...a,
+              images: a.images.map((img, i) =>
+                i === imgIdx ? { ...img, ...patch } : img,
+              ),
+            }
+          : a,
+      ),
+    );
+  }
+
+  function deleteImage(albumId: string, imgIdx: number) {
+    setAlbums((prev) =>
+      prev.map((a) =>
+        a.id === albumId
+          ? { ...a, images: a.images.filter((_, i) => i !== imgIdx) }
+          : a,
+      ),
+    );
+  }
 
   return (
     <div>
@@ -44,81 +84,107 @@ export function GalleryEditor({ initial }: Props) {
         title="HIGHLIGHT"
         actions={
           <>
-            <ImageUploader onUploaded={handleUploaded} />
-            <SaveButton section="gallery" data={items} />
+            <button
+              type="button"
+              onClick={() => setAlbums((prev) => [...prev, newAlbum()])}
+              className="border border-white/20 px-4 py-2 font-display text-[10px] tracking-[0.3em] text-racing-white/80 transition-colors hover:border-racing-red hover:text-racing-red"
+            >
+              ＋ フォルダを追加
+            </button>
+            <SaveButton section="gallery" data={albums} />
           </>
         }
       />
 
-      <p className="mb-2 text-xs text-racing-white/60">
-        ハイライトページに表示する画像を管理します。カテゴリーで場所・イベントを分類してください。
-      </p>
-
-      {/* Category summary */}
-      {Object.keys(categoryCounts).length > 0 && (
-        <div className="mb-6 flex flex-wrap gap-2">
-          {Object.entries(categoryCounts).map(([cat, count]) => (
-            <span
-              key={cat}
-              className="border border-white/15 px-2 py-0.5 font-display text-[10px] tracking-widest text-racing-white/60"
-            >
-              {cat} <span className="text-racing-red">{count}</span>
-            </span>
-          ))}
+      {albums.length === 0 && (
+        <div className="mt-6 border border-dashed border-white/15 p-10 text-center text-sm text-racing-white/40">
+          フォルダがありません。「＋ フォルダを追加」から作成してください。
         </div>
       )}
 
-      <SortableList<GalleryItem>
-        items={items}
-        getKey={(item, i) => `${item.src}-${i}`}
-        onChange={setItems}
-        renderItem={(item, i, controls) => (
-          <div className="flex items-start gap-4">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={item.src}
-              alt=""
-              className="h-20 w-28 shrink-0 object-cover"
-            />
-            <div className="flex flex-1 flex-col gap-1.5">
-              <div className="truncate font-mono text-[11px] text-racing-white/40">
-                {item.src}
-              </div>
-              {/* Category */}
-              <div className="flex flex-col gap-1">
-                <input
-                  type="text"
-                  value={item.category}
-                  onChange={(e) => updateField(i, "category", e.target.value)}
-                  placeholder="カテゴリー（例: 大会、走行テスト）"
-                  list={`cat-suggestions-${i}`}
-                  className="border border-racing-red/40 bg-white/5 px-2 py-1 text-xs text-racing-white placeholder:text-racing-white/25 focus:border-racing-red focus:outline-none"
-                />
-                <datalist id={`cat-suggestions-${i}`}>
-                  {CATEGORY_SUGGESTIONS.map((s) => (
-                    <option key={s} value={s} />
-                  ))}
-                </datalist>
-              </div>
-              {/* Caption */}
+      <div className="mt-4 flex flex-col gap-6">
+        {albums.map((album, albumIdx) => (
+          <div
+            key={album.id}
+            className="border border-white/10 bg-racing-carbon p-5"
+          >
+            {/* Album header */}
+            <div className="mb-4 flex items-center gap-3">
               <input
                 type="text"
-                value={item.caption}
-                onChange={(e) => updateField(i, "caption", e.target.value)}
-                placeholder="キャプション（任意）"
-                className="border border-white/15 bg-white/5 px-2 py-1 text-xs text-racing-white placeholder:text-racing-white/25 focus:border-racing-red focus:outline-none"
+                value={album.name}
+                onChange={(e) => updateAlbum(album.id, { name: e.target.value })}
+                placeholder="フォルダ名（例: 2025年大会、走行テスト）"
+                className="flex-1 border-b border-white/20 bg-transparent py-1 font-display text-base tracking-widest text-racing-white placeholder:text-racing-white/25 focus:border-racing-red focus:outline-none"
               />
+              <span className="font-display text-[10px] text-racing-white/30">
+                {album.images.length} 枚
+              </span>
+              <button
+                type="button"
+                onClick={() => moveAlbum(album.id, -1)}
+                disabled={albumIdx === 0}
+                className="border border-white/15 px-2 py-1 text-xs text-racing-white/50 hover:text-racing-white disabled:opacity-20"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                onClick={() => moveAlbum(album.id, 1)}
+                disabled={albumIdx === albums.length - 1}
+                className="border border-white/15 px-2 py-1 text-xs text-racing-white/50 hover:text-racing-white disabled:opacity-20"
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteAlbum(album.id)}
+                className="border border-white/15 px-3 py-1 font-display text-[10px] tracking-widest text-racing-white/50 transition-colors hover:border-red-500 hover:text-red-500"
+              >
+                削除
+              </button>
             </div>
-            {controls}
-          </div>
-        )}
-      />
 
-      {items.length === 0 && (
-        <div className="mt-4 border border-dashed border-white/15 p-8 text-center text-sm text-racing-white/50">
-          画像がありません。「画像をアップロード」から追加してください。
-        </div>
-      )}
+            {/* Images grid */}
+            {album.images.length > 0 && (
+              <div className="mb-4 grid grid-cols-3 gap-2 md:grid-cols-5 lg:grid-cols-6">
+                {album.images.map((img, imgIdx) => (
+                  <div key={imgIdx} className="group relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img.src}
+                      alt=""
+                      className="h-20 w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => deleteImage(album.id, imgIdx)}
+                      className="absolute right-0 top-0 hidden bg-red-600 px-1 py-0.5 text-[10px] text-white group-hover:block"
+                    >
+                      ✕
+                    </button>
+                    <input
+                      type="text"
+                      value={img.caption}
+                      onChange={(e) =>
+                        updateImage(album.id, imgIdx, { caption: e.target.value })
+                      }
+                      placeholder="キャプション"
+                      className="mt-0.5 w-full border-b border-white/10 bg-transparent text-[10px] text-racing-white/50 placeholder:text-racing-white/20 focus:border-racing-red focus:outline-none"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload button */}
+            <ImageUploader
+              label="＋ 画像をアップロード"
+              onUploaded={(path) => addImage(album.id, path)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
