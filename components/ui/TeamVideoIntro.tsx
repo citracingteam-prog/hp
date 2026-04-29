@@ -75,20 +75,22 @@ export function TeamVideoIntro({ onComplete }: { onComplete?: () => void }) {
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           className="fixed inset-0 z-[70] overflow-hidden bg-racing-black"
         >
-          {/* Video */}
-          <video
-            ref={videoRef}
-            src="/shinkan-pv.mp4"
-            playsInline
-            muted
-            preload="auto"
-            onEnded={handleSkip}
-            onError={handleSkip}
-            onTimeUpdate={handleTimeUpdate}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-              phase === "playing" ? "opacity-100" : "opacity-0"
-            }`}
-          />
+          {/* Video — object-cover via manual centering for iOS Safari compat */}
+          <div className="absolute inset-0 overflow-hidden">
+            <video
+              ref={videoRef}
+              src="/shinkan-pv.mp4"
+              playsInline
+              muted
+              preload="auto"
+              onEnded={handleSkip}
+              onError={handleSkip}
+              onTimeUpdate={handleTimeUpdate}
+              className={`absolute left-1/2 top-1/2 h-auto min-h-full w-auto min-w-full -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ${
+                phase === "playing" ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </div>
 
           {/* Gradient overlay during playback */}
           {phase === "playing" && (
