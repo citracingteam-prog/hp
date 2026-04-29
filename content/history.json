@@ -28,7 +28,7 @@
     "event": "AWARD",
     "headline": "チーム史上初の全種目完走",
     "detail": "日本自動車工業会会長賞を受賞。",
-    "highlight": true
+    "highlight": false
   },
   {
     "year": "第16回",
@@ -47,7 +47,7 @@
     "event": "BEST EVER",
     "headline": "総合18位・ベスト車検賞(ICV)受賞",
     "detail": "チーム史上最高順位を更新。走行性能と設計精度の両面で評価された。",
-    "highlight": true
+    "highlight": false
   },
   {
     "year": "2026",
