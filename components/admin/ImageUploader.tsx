@@ -16,8 +16,8 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     const file = files[0];
-    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
-      notify("error", "jpg/png/webp のみアップロード可能です");
+    if (!/^image\/(jpeg|png|webp|svg\+xml|gif)$/.test(file.type)) {
+      notify("error", "jpg/png/webp/svg/gif のみアップロード可能です");
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -76,7 +76,7 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png,image/webp,image/svg+xml,image/gif"
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
