@@ -24,6 +24,14 @@ export const metadata: Metadata = {
   },
   description:
     "日本大学生産工学部の学生フォーミュラチームCIT-Racing Team。2002年結成。学生が設計・製作したフォーミュラカーで全日本大会に挑戦中。スポンサー・応援募集中。",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "CIT-Racing Team | 日本大学生産工学部 学生フォーミュラ",
     description:
