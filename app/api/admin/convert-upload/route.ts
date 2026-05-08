@@ -9,7 +9,7 @@ import os from "os";
 export const runtime = "nodejs";
 
 const MAX_SIZE = 20 * 1024 * 1024;
-const ALLOWED_EXT = new Set([".ai", ".tiff", ".tif"]);
+const ALLOWED_EXT = new Set([".ai", ".tiff", ".tif", ".pdf"]);
 
 export async function POST(req: Request) {
   if (process.env.NODE_ENV === "production") {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
   const ext = path.extname(file.name).toLowerCase();
   if (!ALLOWED_EXT.has(ext)) {
-    return NextResponse.json({ error: "ai/tiff のみ可" }, { status: 415 });
+    return NextResponse.json({ error: "ai/tiff/pdf のみ可" }, { status: 415 });
   }
 
   const tmpDir = os.tmpdir();

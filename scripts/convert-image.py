@@ -7,7 +7,7 @@ from pathlib import Path
 
 def convert(src: str, dst: str):
     ext = Path(src).suffix.lower()
-    if ext == ".ai":
+    if ext in (".ai", ".pdf"):
         import fitz
         doc = fitz.open(src)
         page = doc[0]

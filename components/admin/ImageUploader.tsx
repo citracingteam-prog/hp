@@ -13,7 +13,7 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
   const [uploading, setUploading] = useState(false);
   const [dragging, setDragging] = useState(false);
 
-  const CONVERT_EXTS = [".ai", ".tiff", ".tif"];
+  const CONVERT_EXTS = [".ai", ".tiff", ".tif", ".pdf"];
 
   function needsConvert(file: File) {
     const ext = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
@@ -88,7 +88,7 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/svg+xml,image/gif,.ai,.tiff,.tif"
+        accept="image/jpeg,image/png,image/webp,image/svg+xml,image/gif,.ai,.tiff,.tif,.pdf"
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
