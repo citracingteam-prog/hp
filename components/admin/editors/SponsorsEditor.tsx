@@ -10,6 +10,7 @@ type Props = { initial: Company[] };
 
 export function SponsorsEditor({ initial }: Props) {
   const [companies, setCompanies] = useState<Company[]>(initial);
+  const [query, setQuery] = useState("");
 
   function add() {
     setCompanies((prev) => [...prev, { name: "" }]);
@@ -27,6 +28,12 @@ export function SponsorsEditor({ initial }: Props) {
     next.splice(to, 0, moved);
     setCompanies(next);
   }
+
+  const filtered = query
+    ? companies.map((c, i) => ({ c, i })).filter(({ c }) =>
+        c.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : companies.map((c, i) => ({ c, i }));
 
   return (
     <div>
@@ -46,8 +53,23 @@ export function SponsorsEditor({ initial }: Props) {
         }
       />
 
+      <div className="mb-4 flex items-center gap-2">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="スポンサー名で検索..."
+          className="w-72 border border-white/15 bg-racing-black px-3 py-1.5 text-sm text-racing-white outline-none focus:border-racing-red placeholder:text-racing-white/30"
+        />
+        {query && (
+          <span className="text-xs text-racing-white/50">
+            {filtered.length} / {companies.length} 件
+          </span>
+        )}
+      </div>
+
       <ul className="flex flex-col gap-3">
-        {companies.map((company, j) => (
+        {filtered.map(({ c: company, i: j }) => (
           <li
             key={j}
             className="flex flex-col gap-2 border border-white/10 bg-white/[0.02] p-3"
