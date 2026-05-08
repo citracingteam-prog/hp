@@ -13,6 +13,7 @@ const NAV = [
   { label: "NEXT RACE", href: "/admin/races" },
   { label: "SPONSORS", href: "/admin/sponsors" },
   { label: "SPONSOR 詳細", href: "/admin/sponsor-details" },
+  { label: "SITE ICON", href: "/admin/icon" },
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {
