@@ -44,7 +44,7 @@ export function Header() {
             <img
               src="/image.png"
               alt="CIT-Racing Team"
-              className="h-10 w-auto invert contrast-[2] md:h-14"
+              className="h-7 w-auto invert contrast-[2] md:h-9"
             />
           </a>
 
