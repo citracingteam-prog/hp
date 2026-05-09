@@ -57,9 +57,9 @@ export function SponsorDetailsEditor({ initial }: Props) {
                   href={company.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-[10px] text-racing-white/30 hover:text-racing-white/60"
+                  className="border border-white/20 px-3 py-1 font-display text-[11px] tracking-[0.2em] text-racing-white/70 transition-colors hover:border-racing-red hover:text-racing-red"
                 >
-                  {company.url}
+                  SITE →
                 </a>
               )}
             </div>
