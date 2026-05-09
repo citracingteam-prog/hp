@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { readSessionFromRequest } from "@/lib/admin/require-session";
-import { commitTextFile } from "@/lib/admin/github";
+import { commitTextFile, getTextFileContent } from "@/lib/admin/github";
 
-const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery"] as const;
+const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery", "sponsor-descriptions"] as const;
 type Section = (typeof ALLOWED_SECTIONS)[number];
 
 function isAllowedSection(v: unknown): v is Section {
@@ -28,9 +28,43 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "data がありません" }, { status: 400 });
   }
 
+  const now = new Date().toISOString().replace("T", " ").slice(0, 16);
+
+  // sponsor-descriptions: fetch latest sponsors.json from GitHub and merge only descriptions
+  if (body.section === "sponsor-descriptions") {
+    const current = await getTextFileContent("content/sponsors.json").catch(() => null);
+    if (!current) {
+      return NextResponse.json({ error: "sponsors.json が取得できませんでした" }, { status: 500 });
+    }
+    let existing: Array<{ name: string; description?: string; [key: string]: unknown }>;
+    try {
+      existing = JSON.parse(current);
+    } catch {
+      return NextResponse.json({ error: "sponsors.json のパースに失敗しました" }, { status: 500 });
+    }
+    const incoming = body.data as Array<{ name: string; description?: string }>;
+    const descMap = new Map(incoming.map((c) => [c.name, c.description]));
+    const merged = existing.map((c) => ({
+      ...c,
+      ...(descMap.has(c.name) ? { description: descMap.get(c.name) } : {}),
+    }));
+    try {
+      await commitTextFile({
+        path: "content/sponsors.json",
+        content: JSON.stringify(merged, null, 2) + "\n",
+        message: `content: update sponsor-descriptions via admin (${now})`,
+      });
+    } catch (e) {
+      return NextResponse.json(
+        { error: e instanceof Error ? e.message : "GitHub コミット失敗" },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json({ ok: true });
+  }
+
   const content = JSON.stringify(body.data, null, 2) + "\n";
   const path = `content/${body.section}.json`;
-  const now = new Date().toISOString().replace("T", " ").slice(0, 16);
 
   try {
     await commitTextFile({

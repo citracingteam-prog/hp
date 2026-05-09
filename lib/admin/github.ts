@@ -53,6 +53,13 @@ export async function commitTextFile(args: {
   if (!res.ok) throw new Error(`GitHub PUT ${args.path} ${res.status}: ${await res.text()}`);
 }
 
+export async function getTextFileContent(path: string): Promise<string | null> {
+  const result = await getFile(path);
+  if (!result) return null;
+  // GitHub API returns base64 with line-breaks every 60 chars
+  return Buffer.from(result.content.replace(/\n/g, ""), "base64").toString("utf-8");
+}
+
 export async function commitBinaryFile(args: {
   path: string;
   bytes: Buffer;

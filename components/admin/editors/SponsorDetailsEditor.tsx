@@ -22,7 +22,12 @@ export function SponsorDetailsEditor({ initial }: Props) {
     <div>
       <SectionHeader
         title="SPONSOR 詳細"
-        actions={<SaveButton section="sponsors" data={companies} />}
+        actions={
+          <SaveButton
+            section="sponsor-descriptions"
+            data={companies.map((c) => ({ name: c.name, description: c.description }))}
+          />
+        }
       />
 
       <p className="mb-6 text-sm text-racing-white/50">
