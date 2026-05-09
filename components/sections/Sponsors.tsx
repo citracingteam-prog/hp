@@ -7,9 +7,10 @@ import { SPONSORS, SPECIAL_THANKS, type Company } from "@/lib/data";
 
 export function Sponsors() {
   const sponsorsWithLogo = SPONSORS.filter((c) => c.logo);
-  const half = Math.ceil(sponsorsWithLogo.length / 2);
-  const rowA = sponsorsWithLogo.slice(0, half);
-  const rowB = sponsorsWithLogo.slice(half);
+  const third = Math.ceil(sponsorsWithLogo.length / 3);
+  const rowA = sponsorsWithLogo.slice(0, third);
+  const rowB = sponsorsWithLogo.slice(third, third * 2);
+  const rowC = sponsorsWithLogo.slice(third * 2);
 
   return (
     <section id="sponsors" className="relative bg-racing-black px-0 py-24 md:py-32">
@@ -57,6 +58,11 @@ export function Sponsors() {
         </Marquee>
         <Marquee direction="right">
           {rowB.map((c, idx) => (
+            <SponsorBox key={idx} company={c} />
+          ))}
+        </Marquee>
+        <Marquee direction="left">
+          {rowC.map((c, idx) => (
             <SponsorBox key={idx} company={c} />
           ))}
         </Marquee>
