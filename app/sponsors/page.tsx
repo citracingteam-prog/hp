@@ -83,7 +83,7 @@ export default function SponsorsPage() {
                             href={company.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-display text-[9px] tracking-[0.25em] text-racing-red transition-opacity hover:opacity-70"
+                            className="border border-racing-red px-3 py-1 font-display text-[11px] tracking-[0.25em] text-racing-red transition-all hover:bg-racing-red hover:text-racing-black"
                           >
                             SITE →
                           </a>
