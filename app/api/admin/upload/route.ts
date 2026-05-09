@@ -4,6 +4,7 @@ import { commitBinaryFile } from "@/lib/admin/github";
 import { createHash } from "crypto";
 import fs from "fs";
 import path from "path";
+import sharp from "sharp";
 
 export const runtime = "nodejs";
 
@@ -12,6 +13,23 @@ const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/sv
 
 function sanitizeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
+}
+
+async function optimizeLogo(bytes: Buffer, mime: string): Promise<Buffer> {
+  // SVG・GIF はそのまま返す
+  if (mime === "image/svg+xml" || mime === "image/gif") return bytes;
+  try {
+    return await sharp(bytes)
+      .trim({ threshold: 30 })          // 余白を自動トリミング
+      .resize(512, 256, {
+        fit: "contain",
+        background: { r: 255, g: 255, b: 255, a: 0 },
+      })
+      .png()
+      .toBuffer();
+  } catch {
+    return bytes;
+  }
 }
 
 function findDuplicate(bytes: Buffer): string | null {
@@ -50,15 +68,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "10MB 超" }, { status: 413 });
   }
 
-  const bytes = Buffer.from(await file.arrayBuffer());
+  const rawBytes = Buffer.from(await file.arrayBuffer());
 
-  const duplicate = findDuplicate(bytes);
+  const duplicate = findDuplicate(rawBytes);
   if (duplicate) {
     return NextResponse.json({ error: `同じ画像がすでにアップロードされています: ${duplicate}`, duplicate }, { status: 409 });
   }
 
+  const bytes = await optimizeLogo(rawBytes, file.type);
+
   const ts = Date.now();
-  const filename = `${ts}-${sanitizeFilename(file.name || "upload")}`;
+  const isConverted = file.type !== "image/svg+xml" && file.type !== "image/gif";
+  const baseName = sanitizeFilename(file.name || "upload");
+  const filename = isConverted
+    ? `${ts}-${baseName.replace(/\.[^.]+$/, "")}.png`
+    : `${ts}-${baseName}`;
   const filePath = `public/uploads/${filename}`;
 
   try {

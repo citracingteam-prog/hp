@@ -15,6 +15,22 @@ async function convertTiff(bytes: Buffer): Promise<Buffer> {
   return sharp(bytes).png().toBuffer();
 }
 
+async function optimizeLogo(bytes: Buffer): Promise<Buffer> {
+  const sharp = (await import("sharp")).default;
+  try {
+    return await sharp(bytes)
+      .trim({ threshold: 30 })
+      .resize(512, 256, {
+        fit: "contain",
+        background: { r: 255, g: 255, b: 255, a: 0 },
+      })
+      .png()
+      .toBuffer();
+  } catch {
+    return bytes;
+  }
+}
+
 async function convertWithPython(tmpIn: string, tmpOut: string): Promise<void> {
   const { execSync } = await import("child_process");
   const scriptPath = path.join(process.cwd(), "scripts", "convert-image.py");
@@ -76,20 +92,21 @@ export async function POST(req: Request) {
     );
   }
 
+  const optimized = await optimizeLogo(pngBytes);
   const filename = `${Date.now()}-${path.basename(file.name, ext)}.png`;
   const uploadPath = `public/uploads/${filename}`;
 
   try {
     await commitBinaryFile({
       path: uploadPath,
-      bytes: pngBytes,
+      bytes: optimized,
       message: `content: upload converted image ${filename} via admin`,
     });
 
     try {
       const localDir = path.join(process.cwd(), "public", "uploads");
       if (!fs.existsSync(localDir)) fs.mkdirSync(localDir, { recursive: true });
-      fs.writeFileSync(path.join(localDir, filename), pngBytes);
+      fs.writeFileSync(path.join(localDir, filename), optimized);
     } catch {
       // ローカル書き込み失敗は無視
     }
