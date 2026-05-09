@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { readSessionFromRequest } from "@/lib/admin/require-session";
 import { commitBinaryFile } from "@/lib/admin/github";
+import { createHash } from "crypto";
+import fs from "fs";
+import path from "path";
 
 export const runtime = "nodejs";
 
@@ -9,6 +12,23 @@ const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/sv
 
 function sanitizeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
+}
+
+function findDuplicate(bytes: Buffer): string | null {
+  const uploadsDir = path.join(process.cwd(), "public", "uploads");
+  if (!fs.existsSync(uploadsDir)) return null;
+  const inHash = createHash("sha256").update(bytes).digest("hex");
+  for (const file of fs.readdirSync(uploadsDir)) {
+    try {
+      const existing = fs.readFileSync(path.join(uploadsDir, file));
+      if (createHash("sha256").update(existing).digest("hex") === inHash) {
+        return `/uploads/${file}`;
+      }
+    } catch {
+      // 読み込み失敗は無視
+    }
+  }
+  return null;
 }
 
 export async function POST(req: Request) {
@@ -31,13 +51,19 @@ export async function POST(req: Request) {
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());
+
+  const duplicate = findDuplicate(bytes);
+  if (duplicate) {
+    return NextResponse.json({ error: `同じ画像がすでにアップロードされています: ${duplicate}`, duplicate }, { status: 409 });
+  }
+
   const ts = Date.now();
   const filename = `${ts}-${sanitizeFilename(file.name || "upload")}`;
-  const path = `public/uploads/${filename}`;
+  const filePath = `public/uploads/${filename}`;
 
   try {
     await commitBinaryFile({
-      path,
+      path: filePath,
       bytes,
       message: `content: upload image ${filename} via admin`,
     });

@@ -43,7 +43,12 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
       fd.append("file", file);
       const res = await fetch(endpoint, { method: "POST", body: fd });
       if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as { error?: string };
+        const body = (await res.json().catch(() => ({}))) as { error?: string; duplicate?: string };
+        if (res.status === 409 && body.duplicate) {
+          notify("error", `重複: この画像はすでにアップロードされています`);
+          onUploaded(body.duplicate);
+          return;
+        }
         notify("error", body.error ?? `アップロード失敗 (${res.status})`);
         return;
       }
