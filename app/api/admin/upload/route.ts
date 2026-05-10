@@ -23,7 +23,7 @@ async function optimizeLogo(bytes: Buffer, mime: string): Promise<Buffer> {
       .trim({ threshold: 30 })          // 余白を自動トリミング
       .resize(512, 256, {
         fit: "contain",
-        background: { r: 255, g: 255, b: 255, a: 0 },
+        background: { r: 255, g: 255, b: 255, alpha: 0 },
       })
       .png()
       .toBuffer();
