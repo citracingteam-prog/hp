@@ -28,6 +28,15 @@ export function SponsorsEditor({ initial }: Props) {
     next.splice(to, 0, moved);
     setCompanies(next);
   }
+  function sortByCompletion() {
+    setCompanies((prev) =>
+      [...prev].sort((a, b) => {
+        const scoreA = (a.logo ? 1 : 0) + (a.url ? 1 : 0);
+        const scoreB = (b.logo ? 1 : 0) + (b.url ? 1 : 0);
+        return scoreB - scoreA;
+      }),
+    );
+  }
 
   const filtered = query
     ? companies.map((c, i) => ({ c, i })).filter(({ c }) =>
@@ -41,6 +50,13 @@ export function SponsorsEditor({ initial }: Props) {
         title="SPONSORS"
         actions={
           <>
+            <button
+              type="button"
+              onClick={sortByCompletion}
+              className="border border-white/20 px-4 py-2 font-display text-[10px] tracking-[0.3em] text-racing-white/80 transition-colors hover:border-racing-red hover:text-racing-red"
+            >
+              ロゴ・URL順に整列
+            </button>
             <button
               type="button"
               onClick={add}
