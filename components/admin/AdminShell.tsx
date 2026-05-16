@@ -14,6 +14,7 @@ const NAV = [
   { label: "NEXT RACE", href: "/admin/races" },
   { label: "SPONSORS", href: "/admin/sponsors" },
   { label: "SPONSOR 詳細", href: "/admin/sponsor-details" },
+  { label: "SPECIAL THANKS", href: "/admin/special-thanks" },
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {

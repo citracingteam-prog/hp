@@ -4,6 +4,7 @@ import sponsorsJson from "@/content/sponsors.json";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import type { Company } from "@/lib/data";
+import { SPECIAL_THANKS } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "SPONSORS | CIT-Racing",
@@ -94,6 +95,22 @@ export default function SponsorsPage() {
                       </p>
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Special thanks */}
+            <div className="mt-16 border border-white/15">
+              <div className="border-b border-white/15 bg-racing-carbon px-6 py-4 text-center">
+                <span className="font-serif text-3xl italic text-racing-white">
+                  Special thanks
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-3 px-6 py-6">
+                {SPECIAL_THANKS.map((name) => (
+                  <p key={name} className="text-base text-racing-white/80">
+                    {name}
+                  </p>
                 ))}
               </div>
             </div>

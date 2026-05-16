@@ -3,6 +3,7 @@ import membersJson from "@/content/members.json";
 import historyJson from "@/content/history.json";
 import racesJson from "@/content/races.json";
 import sponsorsJson from "@/content/sponsors.json";
+import specialThanksJson from "@/content/special-thanks.json";
 
 export type Member = {
   id: string;
@@ -175,12 +176,7 @@ export const SUPPORT_WAYS: SupportWay[] = [
 
 export const SPONSORS: Company[] = sponsorsJson as Company[];
 
-export const SPECIAL_THANKS: string[] = [
-  "日本大学生産工学部 自動車工学リサーチ・センター",
-  "日本大学生産工学部 機械工学科 実習工場",
-  "日本大学 理工学部",
-  "CIT-Racing OB・OG会",
-];
+export const SPECIAL_THANKS: string[] = specialThanksJson as string[];
 
 export const CONTACT_INFO = {
   email: "citracingteam@gmail.com",
