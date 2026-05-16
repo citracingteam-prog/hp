@@ -58,14 +58,6 @@ export function HistoryEditor({ initial }: Props) {
                 onChange={(v) => updateAt(i, { detail: v })}
                 full
               />
-              <label className="col-span-2 inline-flex items-center gap-2 font-display text-[11px] tracking-[0.2em] text-racing-white/70">
-                <input
-                  type="checkbox"
-                  checked={r.highlight ?? false}
-                  onChange={(e) => updateAt(i, { highlight: e.target.checked })}
-                />
-                HIGHLIGHT
-              </label>
             </div>
             <div className="shrink-0">{controls}</div>
           </div>

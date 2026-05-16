@@ -8,9 +8,9 @@ import { ToastHost } from "./Toast";
 const NAV = [
   { label: "SITE ICON", href: "/admin/icon" },
   { label: "HERO 画像", href: "/admin/hero-images" },
-  { label: "HIGHLIGHT", href: "/admin/gallery" },
   { label: "MEMBERS", href: "/admin/members" },
   { label: "HISTORY", href: "/admin/history" },
+  { label: "GALLERY", href: "/admin/gallery-history" },
   { label: "NEXT RACE", href: "/admin/races" },
   { label: "SPONSORS", href: "/admin/sponsors" },
   { label: "SPONSOR 詳細", href: "/admin/sponsor-details" },

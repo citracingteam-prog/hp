@@ -51,6 +51,7 @@ export type HistoryEntry = {
   headline: string;
   detail?: string;
   highlight?: boolean;
+  photos?: string[];
 };
 
 export type Company = {

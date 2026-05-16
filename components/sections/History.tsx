@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 import { FadeIn } from "@/components/ui/AnimatedText";
 import { HISTORY, type HistoryEntry } from "@/lib/data";
 
@@ -129,70 +130,82 @@ function StatCard({
 
 function Row({ entry, index }: { entry: HistoryEntry; index: number }) {
   const counter = String(index + 1).padStart(2, "0");
+  const photos = entry.photos ?? [];
 
   return (
-    <motion.li
-      initial={{ opacity: 0, x: -24 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-      className={`group relative overflow-hidden transition-colors ${
-        entry.highlight
-          ? "bg-gradient-to-r from-racing-red/[0.1] via-racing-red/[0.02] to-transparent"
-          : "hover:bg-white/[0.02]"
-      }`}
-    >
-      <span
-        aria-hidden
-        className={`absolute left-0 top-0 h-full transition-all duration-500 ${
+    <>
+      <motion.li
+        initial={{ opacity: 0, x: -24 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+        className={`group relative overflow-hidden transition-colors ${
           entry.highlight
-            ? "w-[4px] bg-racing-red"
-            : "w-[2px] bg-white/5 group-hover:w-[4px] group-hover:bg-racing-red"
+            ? "bg-gradient-to-r from-racing-red/[0.1] via-racing-red/[0.02] to-transparent"
+            : "hover:bg-white/[0.02]"
         }`}
-      />
+      >
+        <span
+          aria-hidden
+          className={`absolute left-0 top-0 h-full transition-all duration-500 ${
+            entry.highlight
+              ? "w-[4px] bg-racing-red"
+              : "w-[2px] bg-white/5 group-hover:w-[4px] group-hover:bg-racing-red"
+          }`}
+        />
 
-      <div className="relative grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 py-7 pl-7 pr-5 md:grid-cols-[80px_140px_160px_1fr_auto] md:items-center md:gap-x-10 md:py-9 md:pl-12 md:pr-8">
-        <div className="row-span-2 font-display text-4xl font-bold tabular-nums leading-none text-racing-white/15 md:row-span-1 md:text-5xl">
-          {counter}
+        <div className="relative grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 py-7 pl-7 pr-5 md:grid-cols-[80px_140px_160px_1fr_auto] md:items-center md:gap-x-10 md:py-9 md:pl-12 md:pr-8">
+          <div className="row-span-2 font-display text-4xl font-bold tabular-nums leading-none text-racing-white/15 md:row-span-1 md:text-5xl">
+            {counter}
+          </div>
+
+          <div className="font-display text-sm tracking-[0.22em] text-racing-white md:text-base">
+            {entry.year}
+          </div>
+
+          <div className="col-start-2 font-display text-[11px] tracking-[0.35em] text-racing-red md:col-start-3 md:text-xs">
+            {entry.event}
+          </div>
+
+          <div className="col-span-2 md:col-span-1 md:col-start-4">
+            <h3 className="font-display text-xl font-bold leading-tight md:text-2xl">
+              {entry.headline}
+            </h3>
+            {entry.detail && (
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-racing-white/65">
+                {entry.detail}
+              </p>
+            )}
+          </div>
+
+          <div className="col-span-2 flex flex-col items-start gap-2 md:col-span-1 md:col-start-5 md:items-end md:justify-self-end">
+            <Link
+              href={`/gallery/history#entry-${index}`}
+              className="inline-flex items-center gap-2 border border-white/20 px-5 py-2.5 font-display text-xs tracking-[0.35em] text-racing-white/50 transition-colors hover:border-racing-red hover:text-racing-red"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="h-4 w-4"
+                aria-hidden
+              >
+                <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm4.5 5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM3 11l2-2.5 1.5 1.5L9 7l4 5H3Z" />
+              </svg>
+              GALLERY
+              {photos.length > 0 && (
+                <span className="text-racing-white/30">({photos.length})</span>
+              )}
+            </Link>
+          </div>
         </div>
 
-        <div className="font-display text-sm tracking-[0.22em] text-racing-white md:text-base">
-          {entry.year}
-        </div>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-0 h-[1px] w-0 bg-racing-red transition-all duration-700 group-hover:w-full"
+        />
+      </motion.li>
 
-        <div className="col-start-2 font-display text-[11px] tracking-[0.35em] text-racing-red md:col-start-3 md:text-xs">
-          {entry.event}
-        </div>
-
-        <div className="col-span-2 md:col-span-1 md:col-start-4">
-          <h3 className="font-display text-xl font-bold leading-tight md:text-2xl">
-            {entry.headline}
-          </h3>
-          {entry.detail && (
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-racing-white/65">
-              {entry.detail}
-            </p>
-          )}
-        </div>
-
-        <div className="col-span-2 md:col-span-1 md:col-start-5 md:justify-self-end">
-          {entry.highlight ? (
-            <span className="inline-flex items-center gap-2 border border-racing-red/70 bg-racing-black px-3 py-1.5 font-display text-[10px] tracking-[0.35em] text-racing-red">
-              <span className="h-1.5 w-1.5 rounded-full bg-racing-red" />
-              HIGHLIGHT
-            </span>
-          ) : (
-            <span className="hidden font-display text-[10px] tracking-[0.35em] text-racing-white/30 md:inline">
-              —
-            </span>
-          )}
-        </div>
-      </div>
-
-      <span
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-[1px] w-0 bg-racing-red transition-all duration-700 group-hover:w-full"
-      />
-    </motion.li>
+    </>
   );
 }
