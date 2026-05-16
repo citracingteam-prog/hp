@@ -2,72 +2,80 @@
   {
     "name": "HONDA",
     "url": "https://www.honda.co.jp/",
-    "logo": "/uploads/1777480678605-S__25960454.jpg"
+    "logo": "/uploads/1777480678605-S__25960454.jpg",
+    "description": "エンジン、純正部品、CRF450RX完成車等ご支援いただいております。\n​また、講習会や報告会で技術支援もしていただいております。"
   },
   {
     "name": "GS YUASA",
     "url": "https://www.gs-yuasa.com/jp/",
-    "logo": "/sponsur/image copy.png"
+    "logo": "/sponsur/image copy.png",
+    "description": "バイク用バッテリーをご支援いただいております。"
   },
   {
     "name": "SolidWorks",
     "url": "https://www.solidworks.com/ja",
-    "logo": "/sponsur/image copy 2.png"
+    "logo": "/sponsur/image copy 2.png",
+    "description": "設計に使用する3DCADソフトを\nご支援いただいております。"
   },
   {
     "name": "Autodesk",
     "url": "https://www.autodesk.co.jp/",
-    "logo": "/sponsur/image copy 3.png"
+    "logo": "/sponsur/image copy 3.png",
+    "description": "ジェネレーティブデザインを用いた部品開発に関するご支援をいただいております。"
   },
   {
     "name": "IPG Automotive",
     "url": "https://ipg-automotive.com/ja/",
-    "logo": "/sponsur/image copy 4.png"
+    "logo": "/sponsur/image copy 4.png",
+    "description": "CarMaker等のシミュレーションソフトをご支援いただいております。"
   },
   {
     "name": "神戸製鋼",
     "url": "https://www.kobelco.co.jp/",
-    "logo": "/sponsur/image copy 5.png"
+    "logo": "/sponsur/image copy 5.png",
+    "description": "溶接棒やアルミ材をご支援いただいております。"
   },
   {
     "name": "柘植製作所",
     "url": "https://www.tsugess.jp/",
-    "logo": "/sponsur/S__25518094.jpg"
+    "logo": "/sponsur/S__25518094.jpg",
+    "description": "アップライト、ハブの制作を無償で行っていただいております。"
   },
   {
     "name": "三五",
     "url": "https://sango.jp/",
-    "logo": "/sponsur/image copy 6.png"
+    "logo": "/sponsur/image copy 6.png",
+    "description": "フレームに使用する曲げパイプ及び、エキゾスーストパイプをご支援いただいております。"
   },
   {
     "name": "NOK",
     "url": "https://www.nok.co.jp/",
-    "logo": "/sponsur/image copy 7.png"
+    "logo": "/sponsur/image copy 7.png",
+    "description": "オイルシール、グロメットをご支援いただいております。"
   },
   {
     "name": "NTN",
     "url": "https://www.ntn.co.jp/",
-    "logo": "/sponsur/image copy 8.png"
+    "logo": "/sponsur/image copy 8.png",
+    "description": "ドライブシャフトをご支援いただいております。"
   },
   {
     "name": "RS-R",
     "url": "https://www.rs-r.co.jp/",
-    "logo": "/sponsur/image copy 9.png"
-  },
-  {
-    "name": "FCC",
-    "url": "",
-    "logo": "/uploads/1778259182798-F.C.C.jpg"
+    "logo": "/sponsur/image copy 9.png",
+    "description": "ダンパーを協賛価格にて支援いただいております。"
   },
   {
     "name": "Astemo",
     "url": "https://www.astemo.com/jp/",
-    "logo": "/sponsur/image copy 10.png"
+    "logo": "/sponsur/image copy 10.png",
+    "description": "キャリパー等のブレーキ部品をご支援いただいております。"
   },
   {
     "name": "グループ・エム",
     "url": "https://www.gruppem.co.jp/",
-    "logo": "/sponsur/image copy 11.png"
+    "logo": "/sponsur/image copy 11.png",
+    "description": "ブレーキラインをご支援いただいております。"
   },
   {
     "name": "三栄",
@@ -82,32 +90,26 @@
   {
     "name": "igus",
     "url": "https://www.igus.co.jp/",
-    "logo": "/sponsur/image copy 14.png"
-  },
-  {
-    "name": "Stäubli",
-    "url": "",
-    "logo": "/uploads/1778259245455-_________.webp"
+    "logo": "/sponsur/image copy 14.png",
+    "description": "ペダルとステアリングシャフトに使用する樹脂ベアリングをご支援いただいております。"
   },
   {
     "name": "KYOWA",
     "url": "https://www.kyowa-sangyou.com/",
-    "logo": "/sponsur/image copy 15.png"
-  },
-  {
-    "name": "ナック・ケー・エス",
-    "url": "",
-    "logo": "/uploads/1778259263461-_________________.webp"
+    "logo": "/sponsur/image copy 15.png",
+    "description": "ステアリング系に使用する\nユニバーサルジョイントを\nご支援いただいております。"
   },
   {
     "name": "Mynavi Edge",
     "url": "https://mynavi-edge.jp/",
-    "logo": "/sponsur/image copy 16.png"
+    "logo": "/sponsur/image copy 16.png",
+    "description": "タイヤなどの消耗品の購入のための活動資金をご支援いただいております。"
   },
   {
     "name": "トヨタレンタレース千葉",
     "url": "https://rent.toyota.co.jp/",
-    "logo": "/sponsur/image copy 17.png"
+    "logo": "/sponsur/image copy 17.png",
+    "description": "トラックやバンのレンタルを協賛価格でご支援いただいております。"
   },
   {
     "name": "神奈川機器",
@@ -115,216 +117,261 @@
     "url": "https://www.kanagawa-kiki.co.jp/"
   },
   {
+    "name": "FCC",
+    "url": "https://www.fcc-net.co.jp/",
+    "logo": "/uploads/1778259182798-F.C.C.jpg",
+    "description": "LSDをご支援いただいております。"
+  },
+  {
+    "name": "Stäubli",
+    "url": "https://www.staubli.com/jp/ja/home.html",
+    "logo": "/uploads/1778259245455-_________.webp"
+  },
+  {
+    "name": "ナック・ケー・エス",
+    "url": "https://www.nacks.co.jp/",
+    "logo": "/uploads/1778259263461-_________________.webp",
+    "description": "カウルに使用するFRPや硬化剤、グラスウール等をご支援いただいております"
+  },
+  {
     "name": "新東京サーキット",
-    "url": "",
-    "logo": "/uploads/1778259284962-Logo_Normal-e1670190854720.png"
+    "url": "https://n-tokyo.co.jp/",
+    "logo": "/uploads/1778259284962-Logo_Normal-e1670190854720.png",
+    "description": "カートコースを無償にて使用させていただいております。"
   },
   {
     "name": "日本ドライケミカル株式会社",
-    "url": "",
-    "logo": "/uploads/1778259307563-______________JPG.webp"
-  },
-  {
-    "name": "株式会社ハイレックスコーポレーション",
-    "url": ""
+    "url": "https://www.ndc-group.co.jp/",
+    "logo": "/uploads/1778259307563-______________JPG.webp",
+    "description": "CO2消火器をご支援いただいております。"
   },
   {
     "name": "ハードロック工業株式会社",
-    "url": "",
-    "logo": "/uploads/1778259394444-________.png"
+    "url": "https://hardlock.co.jp/",
+    "logo": "/uploads/1778259394444-________.png",
+    "description": "ハードロックナットを提供していただいております"
   },
   {
     "name": "株式会社プロスタッフ",
-    "url": "",
-    "logo": "/uploads/1778259406802-______.png"
+    "url": "https://prostaff-jp.com/",
+    "logo": "/uploads/1778936618901-download.png",
+    "description": "​パーツクリーナーやシャシブラック等消耗品をご支援していただいております"
   },
   {
     "name": "Sakata Designers",
-    "url": "",
-    "logo": "/uploads/1778259422238-Sakata_Designers.webp"
+    "url": "https://www.sakatadesigners.com/",
+    "logo": "/uploads/1778259422238-Sakata_Designers.webp",
+    "description": "カウルのデザイン, ラッピング及び技術支援をしていただいております"
   },
   {
     "name": "株式会社江沼チエン製作所",
-    "url": "",
-    "logo": "/uploads/1778259443974-87741.jpg"
+    "url": "https://www.enuma.co.jp/",
+    "logo": "/uploads/1778259443974-87741.jpg",
+    "description": "ドライブチェーンをご支援いただいております。"
   },
   {
     "name": "ファロージャパン株式会社",
-    "url": "",
+    "url": "https://www.faro.com/ja-JP",
     "logo": "/uploads/1778259463852-________.png"
   },
   {
     "name": "株式会社キノクニエンタープライズ",
-    "url": "",
-    "logo": "/uploads/1778259480078-_____.jpg"
-  },
-  {
-    "name": "サンエイ化学株式会社",
-    "url": ""
-  },
-  {
-    "name": "オーゼットジャパン株式会社",
-    "url": ""
-  },
-  {
-    "name": "サウスコ・ジャパン株式会社",
-    "url": ""
+    "url": "https://www.kinokuni-e.com/",
+    "logo": "/uploads/1778259480078-_____.jpg",
+    "description": "燃料系のホース、ホースコネクタ及びラジエターファンを協賛価格でご支援頂いております。"
   },
   {
     "name": "株式会社アネブル",
-    "url": "",
+    "url": "https://www.enable-os.co.jp/",
     "logo": "/uploads/1778259536021-____.png"
   },
   {
     "name": "デュポンスタイロ株式会社",
-    "url": "",
+    "url": "https://www.dupontstyro.co.jp/",
     "logo": "/uploads/1778313759756-_______.jpg"
   },
   {
     "name": "アルファエネフォーメーション（株)",
-    "url": "",
+    "url": "https://www.alfa-ene-formation.com/",
     "logo": "/uploads/1778313778418-aEne_logoA_1130.png"
   },
   {
     "name": "サイマコーポレーション",
-    "url": "",
-    "logo": "/uploads/1778313803485-______________.jpg"
+    "url": "https://www.saima.co.jp/",
+    "logo": "/uploads/1778313803485-______________.jpg",
+    "description": "ボルトなど締結部品をご支援いただいております。"
   },
   {
     "name": "フラワーペイメント株式会社",
-    "url": "",
-    "logo": "/uploads/1778313820507-Flower_Payment_1.jpg"
+    "url": "https://flower-payment.co.jp/",
+    "logo": "/uploads/1778313820507-Flower_Payment_1.jpg",
+    "description": "活動資金をご支援いただいております。"
   },
   {
     "name": "深井製作所",
-    "url": "",
-    "logo": "/uploads/1778313833192-____.gif"
+    "url": "https://fukai.co.jp/",
+    "logo": "/uploads/1778313833192-____.gif",
+    "description": "ファイヤウォ－ルとして使用するembrella®sheetを協賛価格でご支援いただいております。"
   },
   {
     "name": "株式会社ファソテック",
-    "url": "",
-    "logo": "/uploads/1778313848876-FASOTEC_Color.png"
-  },
-  {
-    "name": "有限会社イトウ",
-    "url": ""
+    "url": "https://www.fasotec.co.jp/",
+    "logo": "/uploads/1778313848876-FASOTEC_Color.png",
+    "description": "3Dプリンター成形品をご支援いただいております。"
   },
   {
     "name": "パーソルクロステクノロジー",
-    "url": "",
-    "logo": "/uploads/1778314086495-____.png"
+    "url": "https://persol-xtech.co.jp/",
+    "logo": "/uploads/1778314086495-____.png",
+    "description": "活動資金をご支援いただいております。"
   },
   {
     "name": "執行工業",
-    "url": "",
-    "logo": "/uploads/1778314100441-___________.jpg"
+    "url": "https://www.shigyokk.com/",
+    "logo": "/uploads/1778314100441-___________.jpg",
+    "description": "アルミ溶接を特別価格にてご支援いただいております。"
   },
   {
     "name": "太平洋精工",
-    "url": "",
-    "logo": "/uploads/1778314111780-________.jpg"
+    "url": "https://www.pecj.co.jp/",
+    "logo": "/uploads/1778314111780-________.jpg",
+    "description": "​フューズを特別価格にてご支援いただいております"
   },
   {
     "name": "HPI",
-    "url": "",
-    "logo": "/uploads/1778314130236-HPI__.jpg"
+    "url": "https://hpi.co.jp/",
+    "logo": "/uploads/1778314130236-HPI__.jpg",
+    "description": "サイレンサーの制作を特別価格にてご支援いただいております。"
   },
   {
     "name": "株式会社ティエムシー",
-    "url": "",
+    "url": "https://www.tmcsystem.co.jp/",
     "logo": "/uploads/1778314152177-TMC.png"
   },
   {
     "name": "株式会社重松製作所",
-    "url": "",
+    "url": "https://www.sts-japan.com/",
     "logo": "/uploads/1778314162799-__.png"
   },
   {
     "name": "ワイズトレーディング株式会社",
-    "url": "",
+    "url": "https://wise-staff.com/",
     "logo": "/uploads/1778314178317-ワイズロゴ.png"
   },
   {
-    "name": "ダイヤモンドヒューマンリソース",
-    "url": ""
-  },
-  {
     "name": "木村鋳造所",
-    "url": "",
+    "url": "https://www.kimuragrp.co.jp/",
     "logo": "/uploads/1778314216499-____.png"
   },
   {
-    "name": "株式会社レント",
-    "url": ""
-  },
-  {
-    "name": "株式会社ライトハウス",
-    "url": ""
-  },
-  {
-    "name": "エンケイ株式会社",
-    "url": ""
-  },
-  {
-    "name": "スズキ機工",
-    "url": ""
-  },
-  {
     "name": "株式会社ワークスベル",
-    "url": "",
-    "logo": "/uploads/1778314642854-______.png"
-  },
-  {
-    "name": "住友電装株式会社",
-    "url": ""
-  },
-  {
-    "name": "ボッシュ株式会社",
-    "url": ""
-  },
-  {
-    "name": "株式会社トライボジャパン（MOTY'S)",
-    "url": ""
-  },
-  {
-    "name": "タイヤフィッティングサービス株式会社",
-    "url": ""
-  },
-  {
-    "name": "日本精工株式会社",
-    "url": ""
+    "url": "https://www.worksbell.co.jp/",
+    "logo": "/uploads/1778314642854-______.png",
+    "description": "ステアリング及びクイックボスをご支援いただいております。"
   },
   {
     "name": "ウエストレーシングカーズ株式会社",
-    "url": "",
+    "url": "https://vita-club.co.jp/",
     "logo": "/uploads/1778314862054-______________________.jpg"
   },
   {
     "name": "株式会社東京アールアンドデー",
-    "url": "",
+    "url": "https://www.tr-d.co.jp/",
     "logo": "/uploads/1778314910260-tokyo_R_A.jpg"
   },
   {
-    "name": "株式会社ガロア(ガクセイ協賛.com運営局)",
-    "url": ""
-  },
-  {
     "name": "株式会社デンソー",
-    "url": "",
+    "url": "https://www.denso.com/jp/ja/",
     "logo": "/uploads/1778315005751-DENSO.png"
   },
   {
     "name": "大成技研株式会社",
-    "url": "",
+    "url": "https://www.taisei-giken.co.jp/",
     "logo": "/uploads/1778315056145-_______.jpg"
   },
   {
     "name": "堀越精機株式会社",
-    "url": "",
+    "url": "https://horikoshi-seiki.co.jp/",
     "logo": "/uploads/1778315073370-________.gif"
   },
   {
     "name": "株式会社ミスミグループ本社",
-    "url": "https://www.misumi.co.jp/"
+    "url": "https://www.misumi.co.jp/",
+    "logo": "/uploads/1778935803356-download.png"
+  },
+  {
+    "name": "株式会社ハイレックスコーポレーション",
+    "url": "https://www.hi-lex.co.jp/",
+    "logo": "/uploads/1778935834329-download.png"
+  },
+  {
+    "name": "サンエイ化学株式会社",
+    "url": "https://sanei-gr.co.jp/",
+    "logo": "/uploads/1778935865692-download.png"
+  },
+  {
+    "name": "オーゼットジャパン株式会社",
+    "url": "https://www.ozracing.com/jp/"
+  },
+  {
+    "name": "サウスコ・ジャパン株式会社",
+    "url": "https://southco.com/ja_jp_int/",
+    "logo": "/uploads/1778935923729-download.png"
+  },
+  {
+    "name": "有限会社イトウ",
+    "url": "https://ito-mc.com/"
+  },
+  {
+    "name": "ダイヤモンドヒューマンリソース",
+    "url": "https://www.diamondhr.co.jp/",
+    "logo": "/uploads/1778936024465-download.png"
+  },
+  {
+    "name": "株式会社レント",
+    "url": "https://www.rent.co.jp/",
+    "logo": "/uploads/1778936070368-download.png"
+  },
+  {
+    "name": "株式会社ライトハウス",
+    "url": "https://lighthouse-frontier.tech/"
+  },
+  {
+    "name": "エンケイ株式会社",
+    "url": "https://www.enkei.co.jp/",
+    "logo": "/uploads/1778936153747-download.png"
+  },
+  {
+    "name": "スズキ機工",
+    "url": "https://suzukikikou.jp/"
+  },
+  {
+    "name": "住友電装株式会社",
+    "url": "https://www.sws.co.jp/",
+    "logo": "/uploads/1778936246252-download.png"
+  },
+  {
+    "name": "ボッシュ株式会社",
+    "url": "https://corporate.bosch.co.jp/",
+    "logo": "/uploads/1778936280820-download.png"
+  },
+  {
+    "name": "株式会社トライボジャパン（MOTY'S)",
+    "url": "https://www.tribojapan.co.jp/index.html",
+    "logo": "/uploads/1778936321575-download.png"
+  },
+  {
+    "name": "タイヤフィッティングサービス株式会社",
+    "url": "https://www.tire-fitter.co.jp/"
+  },
+  {
+    "name": "日本精工株式会社",
+    "url": "https://www.nihonseiko.co.jp/",
+    "logo": "/uploads/1778936426703-download.png"
+  },
+  {
+    "name": "株式会社ガロア(ガクセイ協賛.com運営局)",
+    "url": "https://www.galoisjapan.com/",
+    "logo": "/uploads/1778936462869-download.png"
   }
 ]
