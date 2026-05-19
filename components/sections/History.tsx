@@ -85,13 +85,13 @@ function FlowingStrip({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
-  const hoverPausedRef = useRef(false);
-  const nudgePausedRef = useRef(false);
+  const pausedRef = useRef(false);
+  const dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
 
   useEffect(() => {
     let raf = 0;
     let lastTime = performance.now();
-    const SPEED = 75; // px/sec, faster flow
+    const SPEED = 75;
 
     function tick(now: number) {
       const dt = Math.min((now - lastTime) / 1000, 0.05);
@@ -99,7 +99,7 @@ function FlowingStrip({ children }: { children: React.ReactNode }) {
       const track = trackRef.current;
       const container = containerRef.current;
       if (track && container) {
-        if (!hoverPausedRef.current && !nudgePausedRef.current) {
+        if (!pausedRef.current) {
           const halfWidth = track.scrollWidth / 2;
           if (halfWidth > 0) {
             offsetRef.current -= SPEED * dt;
@@ -109,32 +109,22 @@ function FlowingStrip({ children }: { children: React.ReactNode }) {
           }
         }
 
-        // Find the single card closest to container center → instant snap focus
         const containerRect = container.getBoundingClientRect();
-        const containerCenter =
-          containerRect.left + containerRect.width / 2;
-
+        const containerCenter = containerRect.left + containerRect.width / 2;
         const cards = track.querySelectorAll<HTMLElement>("[data-card]");
         let closest: HTMLElement | null = null;
         let closestDist = Infinity;
         cards.forEach((card) => {
           const r = card.getBoundingClientRect();
           const d = Math.abs(r.left + r.width / 2 - containerCenter);
-          if (d < closestDist) {
-            closestDist = d;
-            closest = card;
-          }
+          if (d < closestDist) { closestDist = d; closest = card; }
         });
-
         cards.forEach((card) => {
           const isActive = card === closest;
           const isHovered = card.dataset.hover === "1";
-          const scale = isActive ? 1.15 : isHovered ? 0.86 : 0.78;
-          const opacity = isActive ? 1 : 0.35;
-          card.style.transform = `scale(${scale})`;
-          card.style.opacity = String(opacity);
+          card.style.transform = `scale(${isActive ? 1.15 : isHovered ? 0.86 : 0.78})`;
+          card.style.opacity = isActive ? "1" : "0.35";
           card.style.zIndex = isActive ? "30" : isHovered ? "20" : "0";
-
           const wasActive = card.hasAttribute("data-active");
           if (isActive && !wasActive) card.setAttribute("data-active", "");
           else if (!isActive && wasActive) card.removeAttribute("data-active");
@@ -143,121 +133,87 @@ function FlowingStrip({ children }: { children: React.ReactNode }) {
       raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    // ── ドラッグ / スワイプ ──
+    const track = trackRef.current!;
+
+    function onPointerDown(e: PointerEvent) {
+      e.preventDefault();
+      dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current };
+      pausedRef.current = true;
+      track.setPointerCapture(e.pointerId);
+      track.style.cursor = "grabbing";
+    }
+
+    function onPointerMove(e: PointerEvent) {
+      if (!dragRef.current.active) return;
+      e.preventDefault();
+      const dx = e.clientX - dragRef.current.startX;
+      let next = dragRef.current.startOffset + dx;
+      const half = track.scrollWidth / 2;
+      if (half > 0) {
+        while (next <= -half) next += half;
+        while (next > 0) next -= half;
+      }
+      offsetRef.current = next;
+      track.style.transform = `translateX(${next}px)`;
+    }
+
+    function onPointerUp() {
+      if (!dragRef.current.active) return;
+      dragRef.current.active = false;
+      track.style.cursor = "";
+      setTimeout(() => { pausedRef.current = false; }, 600);
+    }
+
+    track.addEventListener("pointerdown", onPointerDown);
+    track.addEventListener("pointermove", onPointerMove, { passive: false });
+    track.addEventListener("pointerup", onPointerUp);
+    track.addEventListener("pointercancel", onPointerUp);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      track.removeEventListener("pointerdown", onPointerDown);
+      track.removeEventListener("pointermove", onPointerMove);
+      track.removeEventListener("pointerup", onPointerUp);
+      track.removeEventListener("pointercancel", onPointerUp);
+    };
   }, []);
 
-  function nudge(direction: -1 | 1) {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = track.querySelectorAll<HTMLElement>("[data-card]");
-    const c1 = cards[0];
-    const c2 = cards[1];
-    const step = c1 && c2 ? c2.offsetLeft - c1.offsetLeft : (c1?.offsetWidth ?? 220) + 12;
-
-    nudgePausedRef.current = true;
-    track.style.transition = "transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)";
-
-    offsetRef.current -= direction * step;
-    const halfWidth = track.scrollWidth / 2;
-    while (halfWidth > 0 && offsetRef.current <= -halfWidth)
-      offsetRef.current += halfWidth;
-    while (halfWidth > 0 && offsetRef.current > 0)
-      offsetRef.current -= halfWidth;
-    track.style.transform = `translateX(${offsetRef.current}px)`;
-
-    setTimeout(() => {
-      track.style.transition = "";
-      nudgePausedRef.current = false;
-    }, 310);
-  }
-
   return (
-    <div
-      ref={containerRef}
-      className="relative"
-      onMouseEnter={() => {
-        hoverPausedRef.current = true;
-      }}
-      onMouseLeave={() => {
-        hoverPausedRef.current = false;
-      }}
-    >
+    <div ref={containerRef} className="relative">
       <div className="relative overflow-hidden py-6 md:py-8">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-0 top-0 z-30 h-full w-10 bg-gradient-to-r from-racing-black to-transparent md:w-32"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-0 z-30 h-full w-10 bg-gradient-to-l from-racing-black to-transparent md:w-32"
-        />
+        <div aria-hidden className="pointer-events-none absolute left-0 top-0 z-30 h-full w-10 bg-gradient-to-r from-racing-black to-transparent md:w-32" />
+        <div aria-hidden className="pointer-events-none absolute right-0 top-0 z-30 h-full w-10 bg-gradient-to-l from-racing-black to-transparent md:w-32" />
         <div
           ref={trackRef}
-          className="flex w-max items-center gap-3 md:gap-4"
-          style={{ willChange: "transform" }}
+          className="flex w-max cursor-grab items-center gap-3 md:gap-4"
+          style={{ willChange: "transform", touchAction: "none" }}
         >
-          <div className="flex shrink-0 items-center gap-3 md:gap-4">
-            {children}
-          </div>
-          <div
-            className="flex shrink-0 items-center gap-3 md:gap-4"
-            aria-hidden
-          >
-            {children}
-          </div>
+          <div className="flex shrink-0 items-center gap-3 md:gap-4">{children}</div>
+          <div className="flex shrink-0 items-center gap-3 md:gap-4" aria-hidden>{children}</div>
         </div>
       </div>
-
-      <button
-        type="button"
-        onClick={() => nudge(-1)}
-        aria-label="前のカードへ"
-        className="absolute left-2 top-1/2 z-40 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-racing-black/70 text-racing-white/85 backdrop-blur-sm transition-all hover:border-racing-red hover:text-racing-red md:left-6 md:h-12 md:w-12"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          className="h-4 w-4 md:h-5 md:w-5"
-        >
-          <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        onClick={() => nudge(1)}
-        aria-label="次のカードへ"
-        className="absolute right-2 top-1/2 z-40 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-racing-black/70 text-racing-white/85 backdrop-blur-sm transition-all hover:border-racing-red hover:text-racing-red md:right-6 md:h-12 md:w-12"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          className="h-4 w-4 md:h-5 md:w-5"
-        >
-          <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 }
 
 function HistoryCard({ entry }: { entry: HistoryEntry }) {
   const photo = entry.photos?.[0];
+  const pointerStartX = useRef(0);
 
   return (
     <Link
       data-card
       href="/gallery/history"
-      onMouseEnter={(e) => {
-        e.currentTarget.dataset.hover = "1";
+      draggable={false}
+      onPointerDown={(e) => { pointerStartX.current = e.clientX; }}
+      onClick={(e) => {
+        if (Math.abs(e.clientX - pointerStartX.current) > 5) e.preventDefault();
       }}
-      onMouseLeave={(e) => {
-        e.currentTarget.dataset.hover = "0";
-      }}
-      className="group/h-card relative block h-[340px] w-[220px] shrink-0 origin-center overflow-hidden border border-white/10 bg-racing-carbon transition-[transform,opacity,border-color,box-shadow] duration-[400ms] ease-out data-[active]:border-racing-red/40 data-[active]:shadow-2xl data-[active]:shadow-black/60 md:h-[460px] md:w-[300px]"
+      onMouseEnter={(e) => { e.currentTarget.dataset.hover = "1"; }}
+      onMouseLeave={(e) => { e.currentTarget.dataset.hover = "0"; }}
+      className="group/h-card relative block h-[280px] w-[185px] shrink-0 origin-center overflow-hidden border border-white/10 bg-racing-carbon transition-[transform,opacity,border-color,box-shadow] duration-[400ms] ease-out data-[active]:border-racing-red/40 data-[active]:shadow-2xl data-[active]:shadow-black/60 md:h-[380px] md:w-[250px]"
       style={{ transform: "scale(0.78)", opacity: 0.35 }}
     >
       <div className="relative h-full w-full overflow-hidden bg-racing-carbon">
