@@ -55,7 +55,14 @@
     "headline": "総合18位・ベスト車検賞(ICV)受賞",
     "detail": "チーム史上最高順位を更新。走行性能と設計精度の両面で評価された。",
     "highlight": false,
-    "photos": ["/hero-rear.png"]
+    "photos": [
+      "/hero-rear.png",
+      "https://picsum.photos/seed/race1/800/600",
+      "https://picsum.photos/seed/race2/600/800",
+      "https://picsum.photos/seed/race3/800/600",
+      "https://picsum.photos/seed/race4/800/600",
+      "https://picsum.photos/seed/race5/600/800"
+    ]
   },
   {
     "year": "2026",
