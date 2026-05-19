@@ -3,56 +3,65 @@
     "year": "2002",
     "event": "FOUNDED",
     "headline": "CIT-Racing Team 結成",
-    "detail": "日本大学生産工学部の学術系公認サークルとして発足。"
+    "detail": "日本大学生産工学部の学術系公認サークルとして発足。",
+    "photos": ["/S__25518083_0.jpg"]
   },
   {
-    "year": "第6回",
+    "year": "2008",
     "event": "FIRST DYNAMIC",
     "headline": "動的審査 初出場",
-    "detail": "学生フォーミュラ日本大会の動的競技へ、チームとして初めて進出。"
+    "detail": "学生フォーミュラ日本大会の動的競技へ、チームとして初めて進出。",
+    "photos": ["/S__25518084_0.jpg"]
   },
   {
-    "year": "第8回",
+    "year": "2010",
     "event": "FIRST FINISH",
     "headline": "エンデュランス 初完走",
-    "detail": "最難関の耐久走行を初めて走り切る。"
+    "detail": "最難関の耐久走行を初めて走り切る。",
+    "photos": ["/S__25518085_0.jpg"]
   },
   {
-    "year": "第14回",
+    "year": "2016",
     "event": "COMEBACK",
     "headline": "6年ぶりのエンデュランス完走",
-    "detail": "長い低迷期を経て、動的競技の主戦場に帰還。"
+    "detail": "長い低迷期を経て、動的競技の主戦場に帰還。",
+    "photos": ["/S__25518086_0.jpg"]
   },
   {
-    "year": "第15回",
+    "year": "2017",
     "event": "AWARD",
     "headline": "チーム史上初の全種目完走",
     "detail": "日本自動車工業会会長賞を受賞。",
-    "highlight": false
+    "highlight": false,
+    "photos": ["/S__25518087_0.jpg"]
   },
   {
-    "year": "第16回",
+    "year": "2018",
     "event": "AWARD",
     "headline": "2年連続の全種目完走",
-    "detail": "日本自動車工業会会長賞を連続受賞。"
+    "detail": "日本自動車工業会会長賞を連続受賞。",
+    "photos": ["/S__25518088_0.jpg"]
   },
   {
-    "year": "第22回",
+    "year": "2024",
     "event": "TOP 30",
     "headline": "総合30位 / 会長賞受賞",
-    "detail": "上位常連として成績を安定させる。"
+    "detail": "上位常連として成績を安定させる。",
+    "photos": ["/S__25518089.jpg"]
   },
   {
-    "year": "2025 / 第23回",
+    "year": "2025",
     "event": "BEST EVER",
     "headline": "総合18位・ベスト車検賞(ICV)受賞",
     "detail": "チーム史上最高順位を更新。走行性能と設計精度の両面で評価された。",
-    "highlight": false
+    "highlight": false,
+    "photos": ["/hero-rear.png"]
   },
   {
     "year": "2026",
     "event": "NEXT",
     "headline": "次の自己ベストへ",
-    "detail": "2026年大会に向け、新体制で設計・製造を開始。"
+    "detail": "2026年大会に向け、新体制で設計・製造を開始。",
+    "photos": ["/S__25518083_0.jpg"]
   }
 ]
