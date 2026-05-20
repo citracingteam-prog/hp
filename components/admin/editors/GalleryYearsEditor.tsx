@@ -18,8 +18,16 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
     setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
   }
 
-  function updatePhotos(i: number, photos: string[]) {
-    setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, photos } : r)));
+  function addPhoto(i: number, path: string) {
+    setRows((prev) => prev.map((r, idx) =>
+      idx === i ? { ...r, photos: [...r.photos, path] } : r
+    ));
+  }
+
+  function removePhoto(i: number, pi: number) {
+    setRows((prev) => prev.map((r, idx) =>
+      idx === i ? { ...r, photos: r.photos.filter((_, fi) => fi !== pi) } : r
+    ));
   }
 
   function removeEntry(i: number) {
@@ -68,7 +76,7 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
                     <img src={src} alt="" className="aspect-[4/3] w-full object-cover" />
                     <button
                       type="button"
-                      onClick={() => updatePhotos(i, entry.photos.filter((_, fi) => fi !== pi))}
+                      onClick={() => removePhoto(i, pi)}
                       className="absolute right-0 top-0 hidden bg-red-600 px-1.5 py-0.5 font-display text-[10px] text-white group-hover:block"
                     >
                       ✕
@@ -81,7 +89,7 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
             <div className="flex items-center justify-between gap-4">
               <ImageUploader
                 label="＋ 写真をアップロード"
-                onUploaded={(path) => updatePhotos(i, [...entry.photos, path])}
+                onUploaded={(path) => addPhoto(i, path)}
               />
               <button
                 type="button"
