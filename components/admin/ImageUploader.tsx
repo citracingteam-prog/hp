@@ -20,41 +20,40 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
     return CONVERT_EXTS.includes(ext);
   }
 
-  async function handleFiles(files: FileList | null) {
-    if (!files || files.length === 0) return;
-    const file = files[0];
-
+  async function uploadOne(file: File): Promise<void> {
     const isConvertTarget = needsConvert(file);
     if (!isConvertTarget && !/^image\/(jpeg|png|webp|svg\+xml|gif)$/.test(file.type)) {
-      notify("error", "jpg/png/webp/svg/gif/ai/tiff のみアップロード可能です");
+      notify("error", `${file.name}: jpg/png/webp/svg/gif/ai/tiff のみアップロード可能です`);
       return;
     }
-
     const maxSize = isConvertTarget ? 20 * 1024 * 1024 : 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      notify("error", `${isConvertTarget ? "20MB" : "10MB"} を超える画像はアップロードできません`);
+      notify("error", `${file.name}: ${isConvertTarget ? "20MB" : "10MB"} 超過`);
       return;
     }
-
-    setUploading(true);
-    try {
-      const endpoint = isConvertTarget ? "/api/admin/convert-upload" : "/api/admin/upload";
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch(endpoint, { method: "POST", body: fd });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as { error?: string; duplicate?: string };
-        if (res.status === 409 && body.duplicate) {
-          notify("error", `重複: この画像はすでにアップロードされています`);
-          onUploaded(body.duplicate);
-          return;
-        }
-        notify("error", body.error ?? `アップロード失敗 (${res.status})`);
+    const endpoint = isConvertTarget ? "/api/admin/convert-upload" : "/api/admin/upload";
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch(endpoint, { method: "POST", body: fd });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => ({}))) as { error?: string; duplicate?: string };
+      if (res.status === 409 && body.duplicate) {
+        onUploaded(body.duplicate);
         return;
       }
-      const data = (await res.json()) as { path: string };
-      onUploaded(data.path);
-      notify("success", isConvertTarget ? "変換してアップロードしました" : "アップロードしました");
+      notify("error", body.error ?? `アップロード失敗 (${res.status})`);
+      return;
+    }
+    const data = (await res.json()) as { path: string };
+    onUploaded(data.path);
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    try {
+      await Promise.all(Array.from(files).map((f) => uploadOne(f)));
+      notify("success", files.length > 1 ? `${files.length}枚アップロードしました` : "アップロードしました");
     } catch (e) {
       notify("error", e instanceof Error ? e.message : "通信エラー");
     } finally {
@@ -94,6 +93,7 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
         ref={inputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/svg+xml,image/gif,.ai,.tiff,.tif,.pdf"
+        multiple
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
