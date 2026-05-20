@@ -66,7 +66,7 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
             >
               ＋ 年度を追加
             </button>
-            <SaveButton section="gallery-years" data={rows} />
+            <SaveButton section="gallery-years" data={rows} onSaved={() => { setTimeout(() => window.location.reload(), 1500); }} />
           </>
         }
       />
