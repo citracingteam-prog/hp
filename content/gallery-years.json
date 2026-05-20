@@ -1,8 +1,38 @@
 [
   { "year": "2015", "headline": "2015年度", "photos": [] },
-  { "year": "2016", "headline": "2016年度", "photos": [] },
-  { "year": "2017", "headline": "2017年度", "photos": [] },
-  { "year": "2018", "headline": "2018年度", "photos": [] },
+  {
+    "year": "2016",
+    "headline": "2016年度",
+    "photos": [
+      "/uploads/1779266668188-S__5619729.png",
+      "/uploads/1779266673109-S__6348866.png",
+      "/uploads/1779266741822-IMG_E0941.png",
+      "/uploads/1779266747917-IMG_6673.png",
+      "/uploads/1779266759118-IMG_6556.png",
+      "/uploads/1779266764725-IMG_6542.png",
+      "/uploads/1779266842297-69Nichidai-seisan.png"
+    ]
+  },
+  {
+    "year": "2017",
+    "headline": "2017年度",
+    "photos": []
+  },
+  {
+    "year": "2018",
+    "headline": "2018年度",
+    "photos": [
+      "/uploads/1779266887406-formula_2018_1.png",
+      "/uploads/1779266901951-IMG_0824.png",
+      "/uploads/1779266907818-IMG_0827.png",
+      "/uploads/1779266913986-IMG_0828.png",
+      "/uploads/1779266923790-IMG_0876.png",
+      "/uploads/1779266927372-IMG_0877.png",
+      "/uploads/1779266935200-IMG_0896.png",
+      "/uploads/1779266950034-IMG_0897.png",
+      "/uploads/1779266960699-IMG_0901.png"
+    ]
+  },
   { "year": "2019", "headline": "2019年度", "photos": [] },
   { "year": "2020", "headline": "2020年度", "photos": [] },
   { "year": "2021", "headline": "2021年度", "photos": [] },
