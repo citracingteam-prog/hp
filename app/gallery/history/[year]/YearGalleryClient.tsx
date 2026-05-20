@@ -67,10 +67,19 @@ export function YearGalleryClient({
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-racing-black pt-20">
+      <main className="relative min-h-screen bg-racing-black pt-20">
+        {/* ロゴウォーターマーク */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/cit-logo.png"
+          alt=""
+          aria-hidden
+          className="pointer-events-none fixed inset-0 m-auto h-auto w-[60vw] max-w-2xl select-none object-contain opacity-[0.04]"
+          style={{ filter: "invert(1)", top: "80%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 0 }}
+        />
 
         {/* ── 年ナビゲーションバー ── */}
-        <nav className="sticky top-20 z-40 border-b border-white/[0.07] bg-racing-black/95 backdrop-blur-sm">
+        <nav className="relative sticky top-20 z-40 border-b border-white/[0.07] bg-racing-black/95 backdrop-blur-sm">
           <div
             ref={navBarRef}
             className="flex items-center gap-0 overflow-x-auto px-8 [&::-webkit-scrollbar]:hidden"
