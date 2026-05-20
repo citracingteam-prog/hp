@@ -52,7 +52,9 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
     if (!files || files.length === 0) return;
     setUploading(true);
     try {
-      await Promise.all(Array.from(files).map((f) => uploadOne(f)));
+      for (const f of Array.from(files)) {
+        await uploadOne(f);
+      }
       notify("success", files.length > 1 ? `${files.length}枚アップロードしました` : "アップロードしました");
     } catch (e) {
       notify("error", e instanceof Error ? e.message : "通信エラー");
