@@ -219,54 +219,51 @@ function Photo({ src, alt, onClick }: { src: string; alt: string; onClick: () =>
 }
 
 function EditorialGrid({ photos, onSelect }: { photos: string[]; onSelect: (i: number) => void }) {
-  const GAP = 10;
-  const PADDING = "4rem";
+  const GAP = 8;
+  const PAD = "4rem";
 
-  if (photos.length === 1) {
-    return (
-      <div style={{ padding: `0 ${PADDING}` }}>
-        <div style={{ aspectRatio: "16/9", borderRadius: 2, overflow: "hidden" }}>
-          <Photo src={photos[0]} alt="photo 1" onClick={() => onSelect(0)} />
-        </div>
-      </div>
-    );
+  // 写真をパターン [1, 2, 3, 2, 3, ...] の行に分割
+  const rows: { srcs: string[]; startIdx: number; flex?: number[] }[] = [];
+  let i = 0;
+  const patterns: { count: number; flex?: number[] }[] = [
+    { count: 1 },
+    { count: 2, flex: [3, 2] },
+    { count: 3 },
+    { count: 2, flex: [2, 3] },
+    { count: 3 },
+  ];
+  let p = 0;
+
+  while (i < photos.length) {
+    const pat = patterns[p % patterns.length];
+    const count = Math.min(pat.count, photos.length - i);
+    rows.push({ srcs: photos.slice(i, i + count), startIdx: i, flex: pat.flex });
+    i += count;
+    p++;
   }
-
-  if (photos.length === 2) {
-    return (
-      <div style={{ padding: `0 ${PADDING}`, display: "flex", gap: GAP, height: 440 }}>
-        <div style={{ flex: 3, borderRadius: 2, overflow: "hidden" }}>
-          <Photo src={photos[0]} alt="photo 1" onClick={() => onSelect(0)} />
-        </div>
-        <div style={{ flex: 2, borderRadius: 2, overflow: "hidden" }}>
-          <Photo src={photos[1]} alt="photo 2" onClick={() => onSelect(1)} />
-        </div>
-      </div>
-    );
-  }
-
-  const top3 = photos.slice(0, 3);
-  const rest = photos.slice(3);
-  const restCols = Math.min(rest.length, 4);
 
   return (
-    <div style={{ padding: `0 ${PADDING}`, display: "flex", flexDirection: "column", gap: GAP }}>
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gridTemplateRows: "1fr 1fr", height: 480, gap: GAP }}>
-        <div style={{ gridRow: "1 / 3", borderRadius: 2, overflow: "hidden" }}>
-          <Photo src={top3[0]} alt="photo 1" onClick={() => onSelect(0)} />
-        </div>
-        {top3[1] && <div style={{ borderRadius: 2, overflow: "hidden" }}><Photo src={top3[1]} alt="photo 2" onClick={() => onSelect(1)} /></div>}
-        {top3[2] && <div style={{ borderRadius: 2, overflow: "hidden" }}><Photo src={top3[2]} alt="photo 3" onClick={() => onSelect(2)} /></div>}
-      </div>
-      {rest.length > 0 && (
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${restCols}, 1fr)`, height: 200, gap: GAP }}>
-          {rest.map((src, i) => (
-            <div key={i} style={{ borderRadius: 2, overflow: "hidden" }}>
-              <Photo src={src} alt={`photo ${i + 4}`} onClick={() => onSelect(i + 3)} />
-            </div>
-          ))}
-        </div>
-      )}
+    <div style={{ padding: `0 ${PAD}`, display: "flex", flexDirection: "column", gap: GAP }}>
+      {rows.map((row, ri) => {
+        const isSingle = row.srcs.length === 1;
+        return (
+          <div key={ri} style={{ display: "flex", gap: GAP, alignItems: "stretch" }}>
+            {row.srcs.map((src, pi) => {
+              const idx = row.startIdx + pi;
+              const flexVal = row.flex ? row.flex[pi] ?? 1 : 1;
+              const aspect = isSingle ? "16/9" : row.srcs.length === 2 ? "3/2" : "4/3";
+              return (
+                <div
+                  key={pi}
+                  style={{ flex: flexVal, aspectRatio: aspect, overflow: "hidden", borderRadius: 2 }}
+                >
+                  <Photo src={src} alt={`photo ${idx + 1}`} onClick={() => onSelect(idx)} />
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 }
