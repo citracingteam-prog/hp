@@ -1,7 +1,8 @@
-import history from "@/content/history.json";
-import type { HistoryEntry } from "@/lib/data";
-import { HistoryGalleryEditor } from "@/components/admin/editors/HistoryGalleryEditor";
+import galleryYears from "@/content/gallery-years.json";
+import { GalleryYearsEditor } from "@/components/admin/editors/GalleryYearsEditor";
+
+type GalleryYear = { year: string; headline: string; photos: string[] };
 
 export default function GalleryHistoryPage() {
-  return <HistoryGalleryEditor initial={history as HistoryEntry[]} />;
+  return <GalleryYearsEditor initial={galleryYears as GalleryYear[]} />;
 }

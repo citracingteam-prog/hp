@@ -4,7 +4,7 @@ import { commitTextFile, getTextFileContent } from "@/lib/admin/github";
 import fs from "fs";
 import nodePath from "path";
 
-const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery", "sponsor-descriptions", "special-thanks"] as const;
+const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery", "gallery-years", "sponsor-descriptions", "special-thanks"] as const;
 type Section = (typeof ALLOWED_SECTIONS)[number];
 
 function isAllowedSection(v: unknown): v is Section {
