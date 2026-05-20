@@ -108,8 +108,12 @@ export function YearGalleryClient({
               if (navBarRef.current) navBarRef.current.style.cursor = "grab";
             }}
             onWheel={(e) => {
-              e.preventDefault();
-              if (navBarRef.current) navBarRef.current.scrollLeft += e.deltaY;
+              const el = navBarRef.current;
+              if (!el) return;
+              if (el.scrollWidth > el.clientWidth) {
+                e.preventDefault();
+                el.scrollLeft += e.deltaY;
+              }
             }}
           >
             <Link
