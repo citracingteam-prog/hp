@@ -224,7 +224,7 @@ function Photo({ src, alt, onClick }: { src: string; alt: string; onClick: () =>
 
 function EditorialGrid({ photos, onSelect }: { photos: string[]; onSelect: (i: number) => void }) {
   const GAP = 8;
-  const PAD = "4rem";
+  const PAD = "11rem";
 
   // 写真をパターン [1, 2, 3, 2, 3, ...] の行に分割
   const rows: { srcs: string[]; startIdx: number; flex?: number[] }[] = [];
