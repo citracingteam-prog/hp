@@ -8,42 +8,79 @@ import { ImageUploader } from "@/components/admin/ImageUploader";
 
 type Props = { initial: HistoryEntry[] };
 
+function blank(): HistoryEntry {
+  return { year: "", event: "", headline: "", detail: "", photos: [] };
+}
+
 export function HistoryGalleryEditor({ initial }: Props) {
   const [rows, setRows] = useState<HistoryEntry[]>(initial);
 
+  function updateAt(i: number, patch: Partial<HistoryEntry>) {
+    setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
+  }
+
   function updatePhotos(i: number, photos: string[]) {
     setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, photos } : r)));
+  }
+
+  function removeEntry(i: number) {
+    if (!confirm("この年代を削除しますか？")) return;
+    setRows((prev) => prev.filter((_, idx) => idx !== i));
   }
 
   return (
     <div>
       <SectionHeader
         title="GALLERY"
-        actions={<SaveButton section="history" data={rows} />}
+        actions={
+          <>
+            <button
+              type="button"
+              onClick={() => setRows((prev) => [...prev, blank()])}
+              className="border border-white/20 px-4 py-2 font-display text-[10px] tracking-[0.3em] text-racing-white/80 transition-colors hover:border-racing-red hover:text-racing-red"
+            >
+              ＋ 年代を追加
+            </button>
+            <SaveButton section="history" data={rows} />
+          </>
+        }
       />
 
       <div className="mt-6 flex flex-col gap-6">
         {rows.map((entry, i) => (
           <div key={i} className="border border-white/10 bg-racing-carbon p-5">
-            {/* Entry header */}
-            <div className="mb-4 flex items-center gap-4">
-              <span className="font-display text-base tracking-[0.3em] text-racing-white">
-                {entry.year}
-              </span>
-              {entry.event && (
-                <span className="font-display text-[11px] tracking-[0.3em] text-racing-red">
-                  {entry.event}
-                </span>
-              )}
-              <span className="font-display text-sm text-racing-white/50">
-                {entry.headline}
-              </span>
-              <span className="ml-auto font-display text-[10px] text-racing-white/30">
-                {(entry.photos ?? []).length} 枚
-              </span>
+            {/* 年代編集フィールド */}
+            <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+              <label className="flex flex-col gap-1">
+                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">年(西暦)</span>
+                <input
+                  value={entry.year}
+                  onChange={(e) => updateAt(i, { year: e.target.value })}
+                  placeholder="2024"
+                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">イベント(英)</span>
+                <input
+                  value={entry.event}
+                  onChange={(e) => updateAt(i, { event: e.target.value })}
+                  placeholder="BEST EVER"
+                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
+                />
+              </label>
+              <label className="col-span-2 flex flex-col gap-1">
+                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">見出し</span>
+                <input
+                  value={entry.headline}
+                  onChange={(e) => updateAt(i, { headline: e.target.value })}
+                  placeholder="総合18位・ベスト車検賞受賞"
+                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
+                />
+              </label>
             </div>
 
-            {/* Photo grid */}
+            {/* 写真グリッド */}
             {(entry.photos ?? []).length > 0 && (
               <div className="mb-4 grid grid-cols-3 gap-2 md:grid-cols-5 lg:grid-cols-7">
                 {(entry.photos ?? []).map((src, pi) => (
@@ -57,10 +94,7 @@ export function HistoryGalleryEditor({ initial }: Props) {
                     <button
                       type="button"
                       onClick={() =>
-                        updatePhotos(
-                          i,
-                          (entry.photos ?? []).filter((_, fi) => fi !== pi),
-                        )
+                        updatePhotos(i, (entry.photos ?? []).filter((_, fi) => fi !== pi))
                       }
                       className="absolute right-0 top-0 hidden bg-red-600 px-1.5 py-0.5 font-display text-[10px] text-white group-hover:block"
                     >
@@ -71,13 +105,19 @@ export function HistoryGalleryEditor({ initial }: Props) {
               </div>
             )}
 
-            {/* Upload */}
-            <ImageUploader
-              label="＋ 写真をアップロード"
-              onUploaded={(path) =>
-                updatePhotos(i, [...(entry.photos ?? []), path])
-              }
-            />
+            <div className="flex items-center justify-between gap-4">
+              <ImageUploader
+                label="＋ 写真をアップロード"
+                onUploaded={(path) => updatePhotos(i, [...(entry.photos ?? []), path])}
+              />
+              <button
+                type="button"
+                onClick={() => removeEntry(i)}
+                className="border border-white/15 px-3 py-1.5 font-display text-[10px] tracking-[0.25em] text-racing-white/40 transition-colors hover:border-red-500 hover:text-red-400"
+              >
+                年代を削除
+              </button>
+            </div>
           </div>
         ))}
       </div>

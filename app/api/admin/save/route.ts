@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { readSessionFromRequest } from "@/lib/admin/require-session";
 import { commitTextFile, getTextFileContent } from "@/lib/admin/github";
+import fs from "fs";
+import nodePath from "path";
 
 const ALLOWED_SECTIONS = ["hero-images", "members", "history", "races", "sponsors", "gallery", "sponsor-descriptions", "special-thanks"] as const;
 type Section = (typeof ALLOWED_SECTIONS)[number];
@@ -65,6 +67,12 @@ export async function POST(req: Request) {
 
   const content = JSON.stringify(body.data, null, 2) + "\n";
   const path = `content/${body.section}.json`;
+
+  // 開発環境ではローカルファイルも即時更新してホームに反映
+  if (process.env.NODE_ENV === "development") {
+    const localPath = nodePath.join(process.cwd(), path);
+    fs.writeFileSync(localPath, content, { encoding: "utf8", flag: "w" });
+  }
 
   try {
     await commitTextFile({
