@@ -1,5 +1,23 @@
 [
   {
+    "year": "2002",
+    "event": "FOUNDED",
+    "headline": "CIT-Racing Team 結成",
+    "detail": "日本大学生産工学部の学術系公認サークルとして発足。",
+    "photos": [
+      "/S__25518083_0.jpg"
+    ]
+  },
+  {
+    "year": "2008",
+    "event": "FIRST DYNAMIC",
+    "headline": "動的審査 初出場",
+    "detail": "学生フォーミュラ日本大会の動的競技へ、チームとして初めて進出。",
+    "photos": [
+      "/S__25518084_0.jpg"
+    ]
+  },
+  {
     "year": "2010",
     "event": "FIRST FINISH",
     "headline": "エンデュランス 初完走",
@@ -31,7 +49,9 @@
     "headline": "チーム史上初の全種目完走",
     "detail": "日本自動車工業会会長賞を受賞。",
     "highlight": false,
-    "photos": []
+    "photos": [
+      "/S__25518087_0.jpg"
+    ]
   },
   {
     "year": "2018",
