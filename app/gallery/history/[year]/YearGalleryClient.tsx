@@ -74,8 +74,8 @@ export function YearGalleryClient({
           src="/cit-logo.png"
           alt=""
           aria-hidden
-          className="pointer-events-none fixed inset-0 m-auto h-auto w-[60vw] max-w-2xl select-none object-contain opacity-[0.04]"
-          style={{ filter: "invert(1)", top: "80%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 0 }}
+          className="pointer-events-none fixed h-auto w-[35vw] max-w-sm select-none object-contain opacity-[0.05]"
+          style={{ filter: "invert(1)", top: "78%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 0 }}
         />
 
         {/* ── 年ナビゲーションバー ── */}
