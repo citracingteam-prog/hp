@@ -177,11 +177,7 @@ export function YearGalleryClient({
         </div>
 
         {/* ── Photo grid ── */}
-        {photos.length === 0 ? (
-          <div className="mx-8 flex h-40 items-center justify-center border border-dashed border-white/10 font-display text-[10px] tracking-[0.3em] text-white/20 md:mx-14">
-            写真準備中
-          </div>
-        ) : (
+        {photos.length > 0 && (
           <EditorialGrid photos={photos} onSelect={setLightboxIdx} />
         )}
 
