@@ -105,17 +105,6 @@ export function HistoryEditor({ initial }: Props) {
                 onChange={(v) => updateAt(i, { detail: v })}
               />
 
-              <label className="col-span-2 flex items-center gap-2 text-[11px] tracking-[0.2em] text-racing-white/60">
-                <input
-                  type="checkbox"
-                  checked={r.highlight ?? false}
-                  onChange={(e) =>
-                    updateAt(i, { highlight: e.target.checked })
-                  }
-                  className="accent-racing-red"
-                />
-                ハイライト表示
-              </label>
             </div>
 
             <div className="flex shrink-0 flex-col gap-2">
