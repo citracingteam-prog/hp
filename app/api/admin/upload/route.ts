@@ -75,12 +75,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `同じ画像がすでにアップロードされています: ${duplicate}`, duplicate }, { status: 409 });
   }
 
-  const bytes = await optimizeLogo(rawBytes, file.type);
+  const uploadType = new URL(req.url).searchParams.get("type");
+  const bytes = uploadType === "photo" ? rawBytes : await optimizeLogo(rawBytes, file.type);
 
   const ts = Date.now();
-  const isConverted = file.type !== "image/svg+xml" && file.type !== "image/gif";
   const baseName = sanitizeFilename(file.name || "upload");
-  const filename = isConverted
+  const isLogoConvert = uploadType !== "photo" && file.type !== "image/svg+xml" && file.type !== "image/gif";
+  const filename = isLogoConvert
     ? `${ts}-${baseName.replace(/\.[^.]+$/, "")}.png`
     : `${ts}-${baseName}`;
   const filePath = `public/uploads/${filename}`;

@@ -89,6 +89,7 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
             <div className="flex items-center justify-between gap-4">
               <ImageUploader
                 label="＋ 写真をアップロード"
+                type="photo"
                 onUploaded={(path) => addPhoto(i, path)}
               />
               <button

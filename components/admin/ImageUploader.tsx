@@ -6,9 +6,10 @@ import { notify } from "./Toast";
 type Props = {
   onUploaded: (path: string) => void;
   label?: string;
+  type?: "photo" | "logo";
 };
 
-export function ImageUploader({ onUploaded, label = "画像をアップロード" }: Props) {
+export function ImageUploader({ onUploaded, label = "画像をアップロード", type = "logo" }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -31,7 +32,8 @@ export function ImageUploader({ onUploaded, label = "画像をアップロード
       notify("error", `${file.name}: ${isConvertTarget ? "20MB" : "10MB"} 超過`);
       return;
     }
-    const endpoint = isConvertTarget ? "/api/admin/convert-upload" : "/api/admin/upload";
+    const baseEndpoint = isConvertTarget ? "/api/admin/convert-upload" : "/api/admin/upload";
+    const endpoint = `${baseEndpoint}?type=${type}`;
     const fd = new FormData();
     fd.append("file", file);
     const res = await fetch(endpoint, { method: "POST", body: fd });
