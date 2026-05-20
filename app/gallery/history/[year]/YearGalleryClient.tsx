@@ -292,10 +292,10 @@ function Lightbox({ photos, title, idx, onNext, onPrev, onClose }: {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <motion.img key={photos[idx]} src={photos[idx]} alt={`${title} ${idx + 1}`}
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }}
-        className="absolute inset-0 h-full w-full object-contain"
-        onClick={(e) => e.stopPropagation()}
+        className="absolute inset-0 h-full w-full object-contain pointer-events-none"
+        style={{ imageRendering: "auto" }}
       />
-      <div className="absolute left-0 right-0 top-0 z-10 flex items-start justify-between px-6 pb-20 pt-6"
+      <div className="absolute left-0 right-0 top-0 z-20 flex items-start justify-between px-6 pb-20 pt-6"
         style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 100%)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -307,7 +307,7 @@ function Lightbox({ photos, title, idx, onNext, onPrev, onClose }: {
           className="flex h-10 w-10 items-center justify-center border border-white/20 bg-black/30 font-display text-lg text-white/70 backdrop-blur-sm transition hover:border-racing-red hover:text-racing-red"
         >×</button>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-3 px-6 pb-8 pt-20"
+      <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col items-center gap-3 px-6 pb-8 pt-20"
         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)" }}
         onClick={(e) => e.stopPropagation()}
       >
