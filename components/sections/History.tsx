@@ -222,7 +222,7 @@ function HistoryCard({ entry }: { entry: HistoryEntry }) {
           <img
             src={photo}
             alt={`${entry.year} - ${entry.headline}`}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             loading="lazy"
             draggable={false}
           />
