@@ -4,28 +4,30 @@
     "event": "FOUNDED",
     "headline": "CIT-Racing Team 結成",
     "detail": "日本大学生産工学部の学術系公認サークルとして発足。",
-    "photos": ["/S__25518083_0.jpg"]
+    "photos": []
   },
   {
     "year": "2008",
     "event": "FIRST DYNAMIC",
     "headline": "動的審査 初出場",
     "detail": "学生フォーミュラ日本大会の動的競技へ、チームとして初めて進出。",
-    "photos": ["/S__25518084_0.jpg"]
+    "photos": []
   },
   {
     "year": "2010",
     "event": "FIRST FINISH",
     "headline": "エンデュランス 初完走",
     "detail": "最難関の耐久走行を初めて走り切る。",
-    "photos": ["/S__25518085_0.jpg"]
+    "photos": []
   },
   {
     "year": "2016",
     "event": "COMEBACK",
     "headline": "6年ぶりのエンデュランス完走",
     "detail": "長い低迷期を経て、動的競技の主戦場に帰還。",
-    "photos": ["/S__25518086_0.jpg"]
+    "photos": [
+      "/uploads/1779271461416-S__5619729.png"
+    ]
   },
   {
     "year": "2017",
@@ -33,21 +35,27 @@
     "headline": "チーム史上初の全種目完走",
     "detail": "日本自動車工業会会長賞を受賞。",
     "highlight": false,
-    "photos": ["/S__25518087_0.jpg"]
+    "photos": [
+      "/uploads/1779271531660-IMG_0876.png"
+    ]
   },
   {
     "year": "2018",
     "event": "AWARD",
     "headline": "2年連続の全種目完走",
     "detail": "日本自動車工業会会長賞を連続受賞。",
-    "photos": ["/S__25518088_0.jpg"]
+    "photos": [
+      "/uploads/1779271599514-P9054094-1.png"
+    ]
   },
   {
     "year": "2024",
     "event": "TOP 30",
     "headline": "総合30位 / 会長賞受賞",
     "detail": "上位常連として成績を安定させる。",
-    "photos": ["/S__25518089.jpg"]
+    "photos": [
+      "/uploads/1779271628119-LINE_ALBUM_2024____260520_4.png"
+    ]
   },
   {
     "year": "2025",
@@ -55,13 +63,17 @@
     "headline": "総合18位・ベスト車検賞(ICV)受賞",
     "detail": "チーム史上最高順位を更新。走行性能と設計精度の両面で評価された。",
     "highlight": false,
-    "photos": ["/hero-rear.png"]
+    "photos": [
+      "/uploads/1779271650059-LINE_ALBUM_2025____260520_9.png"
+    ]
   },
   {
     "year": "2026",
     "event": "NEXT",
     "headline": "次の自己ベストへ",
     "detail": "2026年大会に向け、新体制で設計・製造を開始。",
-    "photos": ["/S__25518083_0.jpg"]
+    "photos": [
+      "/uploads/1779273421025-b4774c38-b842-4b10-809a-2d12d535f126.png"
+    ]
   }
 ]
