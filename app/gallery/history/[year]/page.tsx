@@ -1,26 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
-import { HISTORY } from "@/lib/data";
+import galleryYearsJson from "@/content/gallery-years.json";
+
+type GalleryYear = { year: string; headline: string; photos: string[] };
+const GALLERY_YEARS: GalleryYear[] = galleryYearsJson as GalleryYear[];
 
 export default function YearGalleryPage() {
   const { year } = useParams<{ year: string }>();
 
-  const entryIndex = HISTORY.findIndex((h) => h.year === year);
-  const entry = entryIndex !== -1 ? HISTORY[entryIndex] : null;
-  const prevEntry = entryIndex > 0 ? HISTORY[entryIndex - 1] : null;
-  const nextEntry = entryIndex < HISTORY.length - 1 ? HISTORY[entryIndex + 1] : null;
+  const entryIndex = GALLERY_YEARS.findIndex((h) => h.year === year);
+  const entry: GalleryYear | null = entryIndex !== -1 ? GALLERY_YEARS[entryIndex] : null;
+  const prevEntry = entryIndex > 0 ? GALLERY_YEARS[entryIndex - 1] : null;
+  const nextEntry = entryIndex < GALLERY_YEARS.length - 1 ? GALLERY_YEARS[entryIndex + 1] : null;
 
   const photos = entry?.photos ?? [];
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const activeNavRef = useRef<HTMLAnchorElement>(null);
+  const navBarRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const hasMoved = useRef(false);
+  const dragStartX = useRef(0);
+  const scrollStartX = useRef(0);
 
   useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    activeNavRef.current?.scrollIntoView({ behavior: "instant", inline: "center", block: "nearest" });
+  }, [year]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -57,7 +70,38 @@ export default function YearGalleryPage() {
 
         {/* ── 年ナビゲーションバー ── */}
         <nav className="sticky top-20 z-40 border-b border-white/[0.07] bg-racing-black/95 backdrop-blur-sm">
-          <div className="flex items-center gap-0 overflow-x-auto px-8 scrollbar-none">
+          <div
+            ref={navBarRef}
+            className="flex items-center gap-0 overflow-x-auto px-8 [&::-webkit-scrollbar]:hidden"
+            style={{ scrollbarWidth: "none", cursor: "grab", userSelect: "none" }}
+            onMouseDown={(e) => {
+              isDragging.current = true;
+              hasMoved.current = false;
+              dragStartX.current = e.clientX;
+              scrollStartX.current = navBarRef.current?.scrollLeft ?? 0;
+            }}
+            onMouseMove={(e) => {
+              if (!isDragging.current || !navBarRef.current) return;
+              const moved = Math.abs(e.clientX - dragStartX.current);
+              if (moved > 4) {
+                hasMoved.current = true;
+                navBarRef.current.style.cursor = "grabbing";
+                navBarRef.current.scrollLeft = scrollStartX.current - (e.clientX - dragStartX.current);
+              }
+            }}
+            onMouseUp={() => {
+              isDragging.current = false;
+              if (navBarRef.current) navBarRef.current.style.cursor = "grab";
+            }}
+            onMouseLeave={() => {
+              isDragging.current = false;
+              if (navBarRef.current) navBarRef.current.style.cursor = "grab";
+            }}
+            onWheel={(e) => {
+              e.preventDefault();
+              if (navBarRef.current) navBarRef.current.scrollLeft += e.deltaY;
+            }}
+          >
             <Link
               href="/#history"
               className="mr-8 shrink-0 py-5 font-display text-base tracking-[0.4em] text-white/25 transition-colors hover:text-white/70"
@@ -65,12 +109,16 @@ export default function YearGalleryPage() {
               ← BACK
             </Link>
             <span className="mr-8 h-5 w-px shrink-0 bg-white/15" />
-            {HISTORY.map((h) => {
+            {GALLERY_YEARS.map((h) => {
               const isActive = h.year === year;
               return (
                 <Link
                   key={h.year}
                   href={`/gallery/history/${h.year}`}
+                  ref={isActive ? activeNavRef : null}
+                  draggable={false}
+                  onClick={(e) => { if (hasMoved.current) e.preventDefault(); }}
+                  onDragStart={(e) => e.preventDefault()}
                   className={`relative shrink-0 px-6 py-5 font-display text-base tracking-[0.2em] transition-colors ${
                     isActive ? "text-white" : "text-white/30 hover:text-white/70"
                   }`}
@@ -89,7 +137,7 @@ export default function YearGalleryPage() {
         <div className="px-8 pb-8 pt-10 md:px-14">
           <div className="mb-2 flex items-center gap-3">
             <span className="h-px w-6 bg-racing-red" />
-            <span className="font-display text-[10px] tracking-[0.4em] text-racing-red">{entry.event}</span>
+            <span className="font-display text-[10px] tracking-[0.4em] text-racing-red">GALLERY</span>
           </div>
           <div className="flex items-end justify-between gap-4">
             <div>
