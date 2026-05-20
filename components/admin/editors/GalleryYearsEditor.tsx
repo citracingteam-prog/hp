@@ -5,10 +5,10 @@ import { SectionHeader } from "@/components/admin/SectionHeader";
 import { SaveButton } from "@/components/admin/SaveButton";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 
-type GalleryYear = { year: string; headline: string; photos: string[] };
+type GalleryYear = { year: string; headline?: string; photos: string[] };
 
 function blank(): GalleryYear {
-  return { year: "", headline: "", photos: [] };
+  return { year: "", photos: [] };
 }
 
 export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
@@ -48,23 +48,14 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
       <div className="mt-6 flex flex-col gap-6">
         {rows.map((entry, i) => (
           <div key={i} className="border border-white/10 bg-racing-carbon p-5">
-            <div className="mb-4 grid grid-cols-2 gap-3">
+            <div className="mb-4">
               <label className="flex flex-col gap-1">
                 <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">年（西暦）</span>
                 <input
                   value={entry.year}
                   onChange={(e) => updateAt(i, { year: e.target.value })}
                   placeholder="2024"
-                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
-                />
-              </label>
-              <label className="flex flex-col gap-1">
-                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">見出し</span>
-                <input
-                  value={entry.headline}
-                  onChange={(e) => updateAt(i, { headline: e.target.value })}
-                  placeholder="2024年度"
-                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
+                  className="w-40 border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
                 />
               </label>
             </div>
