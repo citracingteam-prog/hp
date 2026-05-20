@@ -50,32 +50,14 @@ export function HistoryGalleryEditor({ initial }: Props) {
         {rows.map((entry, i) => (
           <div key={i} className="border border-white/10 bg-racing-carbon p-5">
             {/* 年代編集フィールド */}
-            <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="mb-4">
               <label className="flex flex-col gap-1">
                 <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">年(西暦)</span>
                 <input
                   value={entry.year}
                   onChange={(e) => updateAt(i, { year: e.target.value })}
                   placeholder="2024"
-                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
-                />
-              </label>
-              <label className="flex flex-col gap-1">
-                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">イベント(英)</span>
-                <input
-                  value={entry.event}
-                  onChange={(e) => updateAt(i, { event: e.target.value })}
-                  placeholder="BEST EVER"
-                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
-                />
-              </label>
-              <label className="col-span-2 flex flex-col gap-1">
-                <span className="font-display text-[9px] tracking-[0.25em] text-racing-white/50">見出し</span>
-                <input
-                  value={entry.headline}
-                  onChange={(e) => updateAt(i, { headline: e.target.value })}
-                  placeholder="総合18位・ベスト車検賞受賞"
-                  className="border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
+                  className="w-40 border border-white/15 bg-racing-black px-2 py-1 text-sm text-racing-white outline-none focus:border-racing-red"
                 />
               </label>
             </div>
