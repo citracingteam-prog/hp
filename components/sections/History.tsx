@@ -56,14 +56,25 @@ export function History() {
           <FadeIn delay={0.25}>
             <Link
               href="/gallery/history"
-              className="group inline-flex items-center gap-3 self-start border border-white/20 px-5 py-3 font-display text-[11px] tracking-[0.3em] text-racing-white transition-colors hover:border-racing-red hover:text-racing-red md:gap-4 md:px-6 md:py-3.5 md:text-xs md:tracking-[0.35em]"
+              className="group inline-flex items-center self-start overflow-hidden border border-white/15 bg-zinc-800/80 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-all duration-300 hover:border-racing-red/40 hover:shadow-[0_6px_28px_rgba(220,38,38,0.2)] hover:scale-[1.02]"
             >
-              VIEW ALL GALLERY
-              <span
-                aria-hidden
-                className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-              >
-                →
+              {/* Camera icon */}
+              <span className="flex items-center pl-4 pr-2 py-3 text-racing-red md:pl-5 md:pr-2.5 md:py-3.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </span>
+              {/* Label */}
+              <span className="px-3 py-3 font-display text-sm tracking-[0.25em] text-white/60 md:px-4 md:py-3.5 md:text-base md:tracking-[0.3em]">
+                VIEW ALL GALLERY
+              </span>
+              {/* Double chevron */}
+              <span className="flex items-center pl-2 pr-4 py-3 text-racing-red transition-transform duration-300 group-hover:translate-x-0.5 md:pl-2.5 md:pr-5 md:py-3.5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <polyline points="13 17 18 12 13 7"/>
+                  <polyline points="6 17 11 12 6 7"/>
+                </svg>
               </span>
             </Link>
           </FadeIn>
