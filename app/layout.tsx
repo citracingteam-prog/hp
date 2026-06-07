@@ -18,6 +18,7 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://citracing.com"),
   title: {
     default: "CIT-Racing Team | 日本大学生産工学部 学生フォーミュラ",
     template: "%s | CIT-Racing Team",
@@ -38,6 +39,14 @@ export const metadata: Metadata = {
       "日本大学生産工学部の学生フォーミュラチームCIT-Racing Team。2002年結成。学生が設計・製作したフォーミュラカーで全日本大会に挑戦中。スポンサー・応援募集中。",
     type: "website",
     locale: "ja_JP",
+    images: [
+      {
+        url: "/S__25518083_0.jpg",
+        width: 1200,
+        height: 800,
+        alt: "CIT-Racing Team フォーミュラカーと学生メンバー",
+      },
+    ],
   },
 };
 

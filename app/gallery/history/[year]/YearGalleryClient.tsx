@@ -210,65 +210,92 @@ export function YearGalleryClient({
 function Photo({ src, alt, onClick }: { src: string; alt: string; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className="group relative h-full w-full overflow-hidden bg-racing-carbon"
+      className="group relative h-full w-full overflow-hidden bg-racing-black"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={alt}
-        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/20" />
+      <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
     </button>
   );
 }
 
-function EditorialGrid({ photos, onSelect }: { photos: string[]; onSelect: (i: number) => void }) {
-  const GAP = 8;
-  const PAD = "4rem";
-
-  // 写真をパターン [1, 2, 3, 2, 3, ...] の行に分割
-  const rows: { srcs: string[]; startIdx: number; flex?: number[] }[] = [];
+function buildGridItems(
+  photos: string[],
+  patterns: { colSpans: number[]; height: string }[],
+  totalCols: number,
+): { src: string; idx: number; colSpan: number; height: string }[] {
+  const items: { src: string; idx: number; colSpan: number; height: string }[] = [];
   let i = 0;
-  const patterns: { count: number; flex?: number[] }[] = [
-    { count: 1 },
-    { count: 2, flex: [3, 2] },
-    { count: 3 },
-    { count: 2, flex: [2, 3] },
-    { count: 3 },
-  ];
   let p = 0;
-
   while (i < photos.length) {
     const pat = patterns[p % patterns.length];
-    const count = Math.min(pat.count, photos.length - i);
-    rows.push({ srcs: photos.slice(i, i + count), startIdx: i, flex: pat.flex });
+    const count = Math.min(pat.colSpans.length, photos.length - i);
+    const colPerPhoto = Math.floor(totalCols / count);
+    const remainder = totalCols - colPerPhoto * count;
+    for (let j = 0; j < count; j++) {
+      const colSpan = count === pat.colSpans.length
+        ? pat.colSpans[j]
+        : colPerPhoto + (j === 0 ? remainder : 0);
+      items.push({ src: photos[i + j], idx: i + j, colSpan, height: pat.height });
+    }
     i += count;
     p++;
   }
+  return items;
+}
+
+function EditorialGrid({ photos, onSelect }: { photos: string[]; onSelect: (i: number) => void }) {
+  const desktopPatterns: { colSpans: number[]; height: string }[] = [
+    { colSpans: [6],       height: "52vh" },
+    { colSpans: [4, 2],    height: "44vh" },
+    { colSpans: [2, 2, 2], height: "38vh" },
+    { colSpans: [2, 4],    height: "44vh" },
+    { colSpans: [2, 2, 2], height: "38vh" },
+  ];
+
+  const mobilePatterns: { colSpans: number[]; height: string }[] = [
+    { colSpans: [2],    height: "68vw" },
+    { colSpans: [1, 1], height: "50vw" },
+    { colSpans: [1, 1], height: "50vw" },
+  ];
+
+  const desktopItems = buildGridItems(photos, desktopPatterns, 6);
+  const mobileItems  = buildGridItems(photos, mobilePatterns,  2);
 
   return (
-    <div style={{ padding: `0 ${PAD}`, display: "flex", flexDirection: "column", gap: GAP }}>
-      {rows.map((row, ri) => {
-        const isSingle = row.srcs.length === 1;
-        return (
-          <div key={ri} style={{ display: "flex", gap: GAP, alignItems: "stretch" }}>
-            {row.srcs.map((src, pi) => {
-              const idx = row.startIdx + pi;
-              const flexVal = row.flex ? row.flex[pi] ?? 1 : 1;
-              const aspect = isSingle ? "16/9" : row.srcs.length === 2 ? "3/2" : "4/3";
-              return (
-                <div
-                  key={pi}
-                  style={{ flex: flexVal, aspectRatio: aspect, overflow: "hidden", borderRadius: 2 }}
-                >
-                  <Photo src={src} alt={`photo ${idx + 1}`} onClick={() => onSelect(idx)} />
-                </div>
-              );
-            })}
+    <>
+      {/* Mobile grid (< md) */}
+      <div
+        className="md:hidden"
+        style={{ padding: "0 0.5rem", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 6 }}
+      >
+        {mobileItems.map((item) => (
+          <div
+            key={item.idx}
+            style={{ gridColumn: `span ${item.colSpan}`, height: item.height, overflow: "hidden", borderRadius: 2 }}
+          >
+            <Photo src={item.src} alt={`photo ${item.idx + 1}`} onClick={() => onSelect(item.idx)} />
           </div>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+      {/* Desktop grid (>= md) */}
+      <div
+        className="hidden md:grid"
+        style={{ padding: "0 7rem", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}
+      >
+        {desktopItems.map((item) => (
+          <div
+            key={item.idx}
+            style={{ gridColumn: `span ${item.colSpan}`, height: item.height, overflow: "hidden", borderRadius: 2 }}
+          >
+            <Photo src={item.src} alt={`photo ${item.idx + 1}`} onClick={() => onSelect(item.idx)} />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -277,6 +304,9 @@ function Lightbox({ photos, title, idx, onNext, onPrev, onClose }: {
   photos: string[]; title: string; idx: number;
   onNext: () => void; onPrev: () => void; onClose: () => void;
 }) {
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -289,6 +319,20 @@ function Lightbox({ photos, title, idx, onNext, onPrev, onClose }: {
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-[100] bg-black"
       onClick={onClose}
+      onTouchStart={(e) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
+      }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current === null || touchStartY.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        const dy = e.changedTouches[0].clientY - touchStartY.current;
+        touchStartX.current = null;
+        touchStartY.current = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) onNext(); else onPrev();
+        }
+      }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <motion.img key={photos[idx]} src={photos[idx]} alt={`${title} ${idx + 1}`}
@@ -326,12 +370,12 @@ function Lightbox({ photos, title, idx, onNext, onPrev, onClose }: {
           <button type="button" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="前の写真"
             className="absolute left-0 top-0 z-10 flex h-full w-[15%] items-center justify-start pl-5 group"
           >
-            <span className="font-display text-5xl text-white/0 transition-colors duration-200 group-hover:text-white/60">‹</span>
+            <span className="font-display text-5xl text-white/40 transition-colors duration-200 md:text-white/0 group-hover:text-white/60">‹</span>
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="次の写真"
             className="absolute right-0 top-0 z-10 flex h-full w-[15%] items-center justify-end pr-5 group"
           >
-            <span className="font-display text-5xl text-white/0 transition-colors duration-200 group-hover:text-white/60">›</span>
+            <span className="font-display text-5xl text-white/40 transition-colors duration-200 md:text-white/0 group-hover:text-white/60">›</span>
           </button>
         </>
       )}

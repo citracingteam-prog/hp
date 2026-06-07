@@ -202,8 +202,7 @@ export const TEAM_VIDEO = {
 export const HERO_MEDIA = {
   videoSrc:
     "https://videos.pexels.com/video-files/2103099/2103099-uhd_3840_2160_30fps.mp4",
-  posterSrc:
-    "https://images.unsplash.com/photo-1541443131876-44b03de101c5?auto=format&fit=crop&w=1920&q=80",
+  posterSrc: heroImagesJson.featureImages[0] ?? "/S__25518083_0.jpg",
   featureSrc: heroImagesJson.featureImages[0] ?? "/S__25518083_0.jpg",
   featureImages: heroImagesJson.featureImages,
 };
