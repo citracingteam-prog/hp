@@ -21,7 +21,7 @@ export function YearGalleryClient({
   const prevEntry = entryIndex > 0 ? galleryYears[entryIndex - 1] : null;
   const nextEntry = entryIndex < galleryYears.length - 1 ? galleryYears[entryIndex + 1] : null;
 
-  const photos = entry?.photos ?? [];
+  const photos = [...new Set(entry?.photos ?? [])];
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const activeNavRef = useRef<HTMLAnchorElement>(null);

@@ -32,6 +32,8 @@ export function GalleryYearsEditor({ initial }: { initial: GalleryYear[] }) {
   }
 
   function addPhoto(i: number, path: string) {
+    // 同一年度内に同じURLがすでにある場合はスキップ
+    if (rows[i].photos.includes(path)) return;
     // 他の年度にすでに同じ写真があれば警告
     const existing = rows.find((r, idx) => idx !== i && r.photos.includes(path));
     if (existing) {
