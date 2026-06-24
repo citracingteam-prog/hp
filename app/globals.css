@@ -25,6 +25,12 @@ html {
   scroll-behavior: auto;
 }
 
+@media (min-width: 768px) {
+  html {
+    zoom: 0.8;
+  }
+}
+
 ::selection {
   background: var(--color-racing-red);
   color: var(--color-racing-white);

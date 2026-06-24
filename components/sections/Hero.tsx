@@ -13,17 +13,9 @@ import { TeamVideoIntro } from "@/components/ui/TeamVideoIntro";
 const CYCLE_MS = 3000;
 
 const imageVariants = {
-  enter: (dir: number) => ({
-    x: dir > 0 ? "14%" : "-14%",
-    opacity: 0,
-    scale: 1.08,
-  }),
-  center: { x: "0%", opacity: 1, scale: 1 },
-  exit: (dir: number) => ({
-    x: dir > 0 ? "-8%" : "8%",
-    opacity: 0,
-    scale: 0.98,
-  }),
+  enter: { opacity: 0, scale: 1.06 },
+  center: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.97 },
 };
 
 export function Hero() {
@@ -63,8 +55,6 @@ export function Hero() {
     return () => window.clearInterval(id);
   }, [images.length, introDone]);
 
-  const direction = index % 2 === 0 ? 1 : -1;
-
   return (
     <section
       id="top"
@@ -102,7 +92,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={introDone ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        className="pointer-events-none absolute left-5 right-5 top-20 z-[5] h-[28vh] md:left-auto md:right-[-5%] md:top-[15%] md:h-[70%] md:w-[58%] lg:right-[-2%] lg:w-[52%]"
+        className="pointer-events-none absolute left-0 right-0 top-[72px] z-[5] h-[44%] md:left-auto md:right-[-5%] md:top-[15%] md:h-[70%] md:w-[58%] lg:right-[-2%] lg:w-[52%]"
       >
         <div className="relative h-full w-full">
           <div className="absolute -left-4 top-0 z-20 h-full w-[3px] overflow-hidden bg-racing-red">
@@ -116,12 +106,11 @@ export function Hero() {
           </div>
 
           <div className="relative h-full w-full overflow-hidden shadow-[0_40px_80px_-20px_rgba(225,6,0,0.4)]">
-            <AnimatePresence initial={false} custom={direction}>
+            <AnimatePresence initial={false}>
               <motion.img
                 key={index}
                 src={images[index]}
                 alt=""
-                custom={direction}
                 variants={imageVariants}
                 initial="enter"
                 animate="center"
@@ -194,7 +183,7 @@ export function Hero() {
       {/* Text content */}
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
-        className="relative z-10 mx-auto w-full max-w-[1600px] px-5 pb-20 md:px-10 md:pb-28"
+        className="relative z-10 mx-auto w-full max-w-[1600px] px-5 pb-14 md:px-10 md:pb-28"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
