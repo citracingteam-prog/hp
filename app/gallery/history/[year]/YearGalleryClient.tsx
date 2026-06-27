@@ -269,8 +269,8 @@ function EditorialGrid({ photos, onSelect }: { photos: string[]; onSelect: (i: n
     <>
       {/* Mobile grid (< md) */}
       <div
-        className="md:hidden"
-        style={{ padding: "0 0.5rem", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 6 }}
+        className="grid md:hidden"
+        style={{ padding: "0 0.5rem", gridTemplateColumns: "repeat(2, 1fr)", gap: 6 }}
       >
         {mobileItems.map((item) => (
           <div
