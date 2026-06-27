@@ -37,7 +37,7 @@ export function Calendar() {
             </FadeIn>
             <FadeIn delay={0.1}>
               <h2 className="font-display text-4xl font-bold leading-tight md:text-6xl">
-                NEXT RACE
+                NEXT EVENT
               </h2>
             </FadeIn>
           </div>
