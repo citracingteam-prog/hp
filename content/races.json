@@ -1,18 +1,10 @@
 [
   {
-    "id": "r1",
-    "name": "茂木試走会",
-    "date": "2026-06-20T00:00:00.000Z",
-    "location": "モビリティリゾート茂木",
-    "image": "/uploads/1777442601750-motegi.jpg",
-    "status": "upcoming"
-  },
-  {
     "id": "r1782562512682",
     "name": "JARI試走会",
-    "date": "2026-06-27T12:15:12.682Z",
+    "date": "2026-07-03T23:00:00.000Z",
     "location": "日本自動車研究所",
-    "image": "",
+    "image": "/uploads/1777442601750-motegi.jpg",
     "status": "upcoming"
   },
   {
