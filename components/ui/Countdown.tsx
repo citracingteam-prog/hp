@@ -58,17 +58,44 @@ function Unit({
   );
 }
 
-export function Countdown({ target }: { target: string | Date }) {
+export function Countdown({
+  target,
+  onExpired,
+}: {
+  target: string | Date;
+  onExpired?: () => void;
+}) {
   const targetMs =
     typeof target === "string" ? new Date(target).getTime() : target.getTime();
   const [parts, setParts] = useState<Parts | null>(null);
 
   useEffect(() => {
     const d = new Date(targetMs);
-    setParts(diff(d));
-    const id = setInterval(() => setParts(diff(d)), 1000);
+    const initial = diff(d);
+    setParts(initial);
+    if (
+      initial.days === 0 &&
+      initial.hours === 0 &&
+      initial.minutes === 0 &&
+      initial.seconds === 0
+    ) {
+      onExpired?.();
+      return;
+    }
+    const id = setInterval(() => {
+      const p = diff(d);
+      setParts(p);
+      if (
+        p.days === 0 &&
+        p.hours === 0 &&
+        p.minutes === 0 &&
+        p.seconds === 0
+      ) {
+        onExpired?.();
+      }
+    }, 1000);
     return () => clearInterval(id);
-  }, [targetMs]);
+  }, [targetMs, onExpired]);
 
   if (!parts) {
     return (

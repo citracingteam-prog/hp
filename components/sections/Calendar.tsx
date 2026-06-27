@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/AnimatedText";
 import { Countdown } from "@/components/ui/Countdown";
@@ -7,7 +8,16 @@ import { RACES } from "@/lib/data";
 import { formatRaceDate } from "@/lib/utils";
 
 export function Calendar() {
-  const nextRace = RACES.find((r) => r.status === "upcoming") ?? RACES[0];
+  const [now, setNow] = useState(() => Date.now());
+
+  const upcomingRaces = RACES.filter(
+    (r) => new Date(r.date).getTime() > now
+  );
+  const nextRace = upcomingRaces[0] ?? RACES[RACES.length - 1];
+
+  const handleExpired = useCallback(() => {
+    setNow(Date.now());
+  }, []);
 
   return (
     <section
@@ -50,7 +60,7 @@ export function Calendar() {
           <div className="relative mb-20 flex justify-center rounded-sm border border-white/10 bg-racing-black p-4 md:p-16">
             <div className="absolute -top-px left-0 h-px w-24 bg-racing-red" />
             <div className="absolute -bottom-px right-0 h-px w-24 bg-racing-red" />
-            <Countdown target={nextRace.date} />
+            <Countdown target={nextRace.date} onExpired={handleExpired} />
           </div>
         </FadeIn>
 
@@ -75,7 +85,7 @@ export function Calendar() {
                 <div className="absolute left-4 top-4 flex items-center gap-2 border border-racing-red bg-racing-black/80 px-3 py-1">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-racing-red" />
                   <span className="font-display text-[10px] tracking-[0.25em] text-racing-red">
-                    {r.status === "upcoming" ? "UPCOMING" : "FINISHED"}
+                    {new Date(r.date).getTime() > now ? "UPCOMING" : "FINISHED"}
                   </span>
                 </div>
               </div>
