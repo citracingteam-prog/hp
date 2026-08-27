@@ -1,12 +1,12 @@
 [
   {
     "id": "m1",
-    "name": "木瀬 悠貴",
-    "reading": "YUKI KISE",
+    "name": "戸兵 隼人",
+    "reading": "TOBE HAYATO",
     "role": "プロジェクトリーダー",
     "squad": "PROJECT LEADER",
-    "year": "生産工学部 3年",
-    "photo": "/uploads/1777450242635-yuuki.jpg",
+    "year": "生産工学部 2年",
+    "photo": "/uploads/1787826953596-S__31105026.png",
     "photoOffsetY": -10
   },
   {
@@ -31,19 +31,19 @@
   },
   {
     "id": "m4",
-    "name": "柘植 勇佑",
-    "reading": "YUSUKE TSUGE",
+    "name": "白山 恵吾",
+    "reading": "KEIGO SHIRAYAMA",
     "role": "フレーム班 リーダー",
     "squad": "FRAME",
-    "year": "生産工学部 3年",
+    "year": "生産工学部 2年",
     "photo": "/uploads/1777440330650-tsuge.jpg",
     "photoOffsetY": -10
   },
   {
     "id": "m5",
-    "name": "内田 光陽",
+    "name": "あき",
     "reading": "KOYO UCHIDA",
-    "role": "パワートレイン班 リーダー",
+    "role": "パワートレイン班 サブリーダー",
     "squad": "POWERTRAIN",
     "year": "生産工学部 3年",
     "photo": "/uploads/1777440686144-uyou.jpg"
