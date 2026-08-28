@@ -10,51 +10,58 @@
     "photoOffsetY": -10
   },
   {
-    "id": "m2",
-    "name": "君塚 航惺",
-    "reading": "KOSEI KIMIZUKA",
+    "id": "m1787888289394",
+    "name": "葛西 悠斗",
+    "reading": "YUTO KASAI",
     "role": "テクニカルディレクター",
     "squad": "TECHNICAL DIRECTOR",
-    "year": "生産工学部 3年",
-    "photo": "/uploads/1777440316452-kimiduka.jpg",
-    "photoOffsetY": -10
+    "year": "生産工学部 2年",
+    "photo": ""
   },
   {
     "id": "m3",
-    "name": "木川 冬威",
-    "reading": "TOUI KIKAWA",
-    "role": "トラックエンジニア / サスペンション班 リーダー",
+    "name": "君塚 航惺",
+    "reading": "KOUSEI KIMIDUKA",
+    "role": "トラックエンジニア / パワートレイン班 リーダー",
     "squad": "TRACK ENGINEER",
     "year": "生産工学部 3年",
     "photo": "/uploads/1777440540975-kigawa.jpg",
     "photoOffsetY": -10
   },
   {
-    "id": "m4",
-    "name": "白山 恵吾",
-    "reading": "KEIGO SHIRAYAMA",
-    "role": "フレーム班 リーダー",
-    "squad": "FRAME",
-    "year": "生産工学部 2年",
-    "photo": "/uploads/1777440330650-tsuge.jpg",
-    "photoOffsetY": -10
-  },
-  {
     "id": "m5",
-    "name": "",
-    "reading": "KOYO UCHIDA",
+    "name": "秋山 綾雄",
+    "reading": "TAKAO AKIYAMA",
     "role": "パワートレイン班 サブリーダー",
     "squad": "POWERTRAIN",
-    "year": "生産工学部 3年",
+    "year": "生産工学部 2年",
     "photo": "/uploads/1787832169704-S__31105045.png"
   },
   {
+    "id": "m1787888189086",
+    "name": "白山　恵吾",
+    "reading": "KEIGO SHIRAYAMA",
+    "role": "フレーム班リーダー",
+    "squad": "Frame",
+    "year": "生産工学部2年",
+    "photo": ""
+  },
+  {
+    "id": "m1787888505902",
+    "name": "飯塚 かさね",
+    "reading": "KASANE IIDUKA",
+    "role": "サスペンション班リーダー",
+    "squad": "SUSPENTION",
+    "year": "生産工学部2年",
+    "photo": ""
+  },
+  {
     "id": "m6",
-    "name": "薮崎",
+    "name": "藪崎 孝矩",
     "reading": "",
     "role": "コックピット班 リーダー",
     "squad": "COCKPIT",
-    "year": "生産工学部 3年",
+    "year": "生産工学部 2年",
     "photo": "/uploads/1787832180077-S__31105044.png"
   },
   {
